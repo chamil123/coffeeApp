@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { Text, View, SafeAreaView, TouchableOpacity, TextInput, ScrollView, StyleSheet } from 'react-native';
 import { CustomHeader } from '../index';
 import { Avatar } from 'react-native-elements';
 import QRCode from 'react-native-qrcode-generator';
@@ -19,7 +19,7 @@ export class Profile extends Component {
     text: 'http://facebook.github.io/react-native/',
   };
   componentDidMount() {
-    fetch('http://coffeeshopcheck3.000webhostapp.com/api/profile/16', {
+    fetch('http://coffeeshopcheck3.000webhostapp.com/api/profile/2', {
       method: 'post',
       // header: {
       //   'Accept': 'application/json',
@@ -45,7 +45,7 @@ export class Profile extends Component {
           _name: responseJson.name,
           _email: responseJson.email,
           _mobile_no: responseJson.mobile_no,
-          text:responseJson.mobile_no
+          text: responseJson.mobile_no
         });
 
 
@@ -95,9 +95,11 @@ export class Profile extends Component {
               </View>
             </View>
             <View style={{ paddingTop: 30 }}>
+
+             
               <QRCode
-                value={this.state.text}
-                size={170}
+                value={"" + this.state._mobile_no}
+                size={200}
                 bgColor='black'
                 fgColor='white' />
             </View>

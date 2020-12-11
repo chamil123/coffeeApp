@@ -21,12 +21,25 @@ const ProfileStack = createStackNavigator();
 const SearchStack = createStackNavigator();
 const StackApp = createStackNavigator();
 const MenuStack = createStackNavigator()
+const Drawer = createDrawerNavigator();
 
 const MenuStackScreen = () => (
   <MenuStack.Navigator>
     <MenuStack.Screen name="TabScreentest" options={{ headerShown: true, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 } }} component={TabScreentest} />
   </MenuStack.Navigator>
 );
+
+
+
+const DrawerStackScreen = () => (
+  <Drawer.Navigator>
+    <Drawer.Screen name="Home" component={TabsCreen} />
+    <Drawer.Screen name="Profile" component={ProfileStackScreen} />
+  </Drawer.Navigator>
+)
+
+
+
 
 const AuthStackScreen = () => (
   <AuthStack.Navigator initialRouteName="SignIn">
@@ -47,8 +60,8 @@ const HomeStackScreen = () => (
   <HomeStack.Navigator>
     <HomeStack.Screen name="MainHome" options={{
       headerShown: true, title: 'Home', headerTitleStyle: {
-        color: 'white'
-      }, headerStyle: { backgroundColor: '#009688', }
+        color: 'white',
+      }, headerStyle: { backgroundColor: '#009688', elevation: 0, shadowOpacity: 0, }
       , headerLeft: () => (
         <TouchableOpacity
           style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 18 }}
@@ -69,8 +82,8 @@ const HomeStackScreen = () => (
     <HomeStack.Screen name="CofeeDetails" options={{ headerShown: false }} component={CofeeDetails} />
     <HomeStack.Screen name="Menu" options={{ headerShown: true }} component={Menu} />
     <HomeStack.Screen name="PlaceOrder" options={{ headerShown: false }} component={PlaceOrder} />
-    <HomeStack.Screen name="FirstPage" options={{ headerShown: false }} component={FirstPage} />
-    <HomeStack.Screen name="SignIn" options={{ headerShown: true }} component={SignIn} /> */}
+    <HomeStack.Screen name="FirstPage" options={{ headerShown: false }} component={FirstPage} /> */}
+    <HomeStack.Screen name="Search" component={DrawerStackScreen} />
   </HomeStack.Navigator>
 )
 
@@ -82,7 +95,7 @@ const SearchStackScreen = () => (
 );
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
-    <ProfileStack.Screen name="Profile"  options={{ headerShown: false }} component={Profile} />
+    <ProfileStack.Screen name="Profile" options={{ headerShown: false }} component={Profile} />
 
   </ProfileStack.Navigator>
 )
@@ -142,7 +155,7 @@ const TabsCreen = () => (
       name="Cart" component={Cart} />
   </Tabs.Navigator>
 )
-const Drawer = createDrawerNavigator();
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -160,6 +173,7 @@ export default function App() {
       <StackApp.Navigator initialRouteName="SplashScreen" >
         <StackApp.Screen name="SplashScreen" options={{ headerShown: false }} component={SplashScreen} />
         <StackApp.Screen name="SignIn" options={{ headerShown: false }} component={AuthStackScreen} />
+
       </StackApp.Navigator>
     </NavigationContainer>
   );

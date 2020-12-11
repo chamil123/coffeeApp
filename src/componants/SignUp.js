@@ -17,7 +17,7 @@ export class SignUp extends Component {
 
   }
   state = {
-    text: 'marlens caffee',
+    text: 'http://facebook.github.io/react-native/',
   };
 
   InputUsers = () => {

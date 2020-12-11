@@ -107,15 +107,9 @@ export class CofeeDetails extends Component {
           <View style={{ justifyContent: 'center', alignItems: 'center', margin: 30, marginTop: 0 }}>
             <ImageBackground
               source={{ uri: "http://coffeeshopcheck3.000webhostapp.com/images/food/" + img }}
-              style={{ height: '100%', width: '100%', resizeMode: 'contain', }}
+              style={{ height: '105%', width: '100%', resizeMode: 'contain',zIndex:-1 }}
             >
-
-
             </ImageBackground>
-            {/* <Image source={{ uri: "http://coffeeshopcheck3.000webhostapp.com/images/food/" + img }}
-              style={{ height: 300, width: 300, resizeMode: 'contain', backgroundColor: 'white' }}
-            >
-            </Image> */}
           </View>
           <View style={{ flexDirection: 'row-reverse', marginHorizontal: 30, top: -25 }}>
             <Avatar

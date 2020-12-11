@@ -149,7 +149,7 @@ export class TabScreentest extends Component {
             return (
                 <SafeAreaView style={{ flex: 1, backgroundColor: '#afcecb' }}>
                     <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#fff" />
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flex: 1,  alignItems: 'center',marginTop:20 }}>
                         <Avatar
                             rounded
                             size={38}

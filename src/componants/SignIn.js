@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Button } from 'react-native-elements';
 import { IMAGE } from '../constants/image';
 import { CustomHeader } from '../index';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export class SignIn extends Component {
   constructor(props) {
@@ -35,6 +35,7 @@ export class SignIn extends Component {
       .then((responseJson) => {
 
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: " + responseJson.msg);
+        
         // id = "";
         // user_email = "";
         // user_password = "";

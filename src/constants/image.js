@@ -26,6 +26,8 @@ const IMAGE = {
     ICON_SLIDE6: require('../images/slide6.jpg'),
     ICON_SLIDE7: require('../images/slide7.png'),
     ICON_PROFILE: require('../images/profiled.png'),
+    ICON_FAVOURITE1: require('../images/favorits1.jpg'),
+    ICON_FAVOURITE2: require('../images/favourits2.jpg'),
 }
 
 export { IMAGE }
