@@ -6,6 +6,7 @@ import { Button } from 'react-native-elements';
 import { IMAGE } from '../constants/image';
 import { CustomHeader } from '../index';
 import AsyncStorage from '@react-native-community/async-storage';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export class SignIn extends Component {
   constructor(props) {
@@ -23,18 +24,17 @@ export class SignIn extends Component {
 
     fetch('http://coffeeshopcheck3.000webhostapp.com/login', {
       method: 'post',
-      header: {
+      headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         "user_email": TextInputEmail,
         "user_password": TextInputPassword,
       })
     }).then((response) => response.json())
-      .then((responseJson) => {
-
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: " + responseJson.msg);
+    .then((responseJson) => {
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>iddd : " + ""+responseJson.id);
         
         // id = "";
         // user_email = "";
@@ -44,14 +44,14 @@ export class SignIn extends Component {
         // }, function () {
         //     // In this block you can do something with new state.
         // });
-        // if (responseJson !== "") {
-        //     AsyncStorage.setItem('memberNames', responseJson.member_name).then(
-        //         responseJson => {
-        this.props.navigation.navigate('Home');
-        //         }
-        //     );
-        //     AsyncStorage.setItem('memberId', responseJson.member_role);
-        // } else {
+        if (responseJson !== "") {
+            AsyncStorage.setItem('cus_id',""+responseJson.id).then(
+              responseJson => {
+                   this.props.navigation.navigate('Home');
+                }
+            );
+            AsyncStorage.setItem('cus_name', responseJson.name);
+        } else {
         //     // Alert.alert("Login Fail");
         //     showMessage({
         //         message: "Login Fail",
@@ -60,10 +60,12 @@ export class SignIn extends Component {
 
         //     })
         //     this.props.navigation.navigate('Login2')
-        // }
+        }
       }).catch((error) => {
         console.error(error);
       })
+
+
 
   }
   render() {
@@ -117,9 +119,9 @@ export class SignIn extends Component {
                 </LinearGradient>
               </TouchableOpacity> */}
               <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ paddingVertical: 15 ,color:'#fff'}}>Don't have account? 
+                <Text style={{ paddingVertical: 25 ,color:'#fff'}}>Don't have account? 
                 
-                <Text style={{ color: '#00897b' }}  onPress={() => this.props.navigation.navigate('SignUp')}> create new Account</Text> 
+                <Text style={{ color: 'yellow' }}  onPress={() => this.props.navigation.navigate('SignUp')}>  create new Account</Text> 
                 </Text>
               
               </View>
@@ -128,7 +130,7 @@ export class SignIn extends Component {
                   title="Sign In"
                   type="outline"
                   titleStyle={{ color: 'white' }}
-                  buttonStyle={ { borderRadius: 25, borderColor: 'white', color: 'white', padding: 12, borderWidth: 1,marginBottom:20,marginTop:35 }}
+                  buttonStyle={ { borderRadius: 25, borderColor: 'white', color: 'white', padding: 12, borderWidth: 1,marginBottom:20,marginTop:5 }}
                   onPress={this.InputUsers}
 
                 />

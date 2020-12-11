@@ -3,6 +3,7 @@ import { Text, View, SafeAreaView, TouchableOpacity, TextInput, ScrollView, Styl
 import { CustomHeader } from '../index';
 import { Avatar } from 'react-native-elements';
 import QRCode from 'react-native-qrcode-generator';
+import AsyncStorage from '@react-native-community/async-storage';
 export class Profile extends Component {
   constructor(props) {
     super(props)
@@ -12,14 +13,17 @@ export class Profile extends Component {
       _id: '',
       _name: '',
       _email: '',
-      _mobile_no: ''
+      _mobile_no: '',
+      _points: '',
+      _cus_id:''
     };
   }
   state = {
     text: 'http://facebook.github.io/react-native/',
   };
-  componentDidMount() {
-    fetch('http://coffeeshopcheck3.000webhostapp.com/api/profile/2', {
+  async componentDidMount() {
+    const myArray = await AsyncStorage.getItem('cus_id');
+    fetch('http://coffeeshopcheck3.000webhostapp.com/api/profile/' + myArray, {
       method: 'post',
       // header: {
       //   'Accept': 'application/json',
@@ -30,7 +34,7 @@ export class Profile extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "id": 1,
+        "id": 2,
 
 
       })
@@ -45,7 +49,46 @@ export class Profile extends Component {
           _name: responseJson.name,
           _email: responseJson.email,
           _mobile_no: responseJson.mobile_no,
-          text: responseJson.mobile_no
+          text: responseJson.mobile_no,
+          _points: responseJson.points,
+          _cus_id:myArray
+        });
+
+
+      }).catch((error) => {
+        console.error(error);
+      })
+
+  }
+
+   refresh = () => {
+   
+   // const myArray = await AsyncStorage.getItem('cus_id');
+  
+    fetch('http://coffeeshopcheck3.000webhostapp.com/api/profile/' + this.state._cus_id, {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "id": 1,
+
+
+      })
+
+
+    }).then((response) => response.json())
+      .then((responseJson) => {
+
+         this.setState({
+          isLoading: false,
+          _id: responseJson.id,
+          _name: responseJson.name,
+          _email: responseJson.email,
+          _mobile_no: responseJson.mobile_no,
+          text: responseJson.mobile_no,
+          _points: responseJson.points
         });
 
 
@@ -90,20 +133,26 @@ export class Profile extends Component {
 
             <View style={{ flexDirection: 'row' }}>
               <View>
-                <Text style={{ fontSize: 45, fontWeight: 'bold', color: 'red' }}>2256</Text>
+                <Text style={{ fontSize: 45, fontWeight: 'bold', color: 'red' }}>{this.state._points}</Text>
                 <Text style={{ fontSize: 16 }}>Total Points</Text>
               </View>
             </View>
             <View style={{ paddingTop: 30 }}>
 
-             
+
               <QRCode
                 value={"" + this.state._mobile_no}
                 size={200}
                 bgColor='black'
                 fgColor='white' />
             </View>
+            <TouchableOpacity style={{ marginTop: 20 }}
+             onPress={this.refresh}
 
+            >
+              <Text>refresh</Text>
+
+            </TouchableOpacity>
           </View>
 
         </ScrollView>

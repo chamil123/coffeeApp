@@ -8,7 +8,7 @@ import { Icon } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { CofeeDetails, TabScreentest, Cart, TestScreen, MainHome, SplashScreen, SignIn, Home, Profile, Search, Details, Menu, PlaceOrder, FirstPage, MainPage, SignUp } from './src/componants'
+import { CofeeDetails, TabScreentest, Cart, TestScreen, MainHome, SplashScreen, SignIn, Home, Profile, Search, Details, Menu, PlaceOrder, FirstPage, MainPage, SignUp, WhereHouse } from './src/componants'
 import { CustomHeader } from './src';
 
 
@@ -42,7 +42,7 @@ const DrawerStackScreen = () => (
 
 
 const AuthStackScreen = () => (
-  <AuthStack.Navigator initialRouteName="SignIn">
+  <AuthStack.Navigator initialRouteName="Home">
     <AuthStack.Screen name="MainPage" options={{ headerShown: false }} component={MainPage} />
     <AuthStack.Screen name="SignIn" options={{ headerShown: false }} component={SignIn} />
     <AuthStack.Screen name="SignUp" options={{ headerShown: false }} component={SignUp} />
@@ -52,6 +52,8 @@ const AuthStackScreen = () => (
     <AuthStack.Screen name="MainHome" options={{ headerShown: true }} component={MainHome} />
     <AuthStack.Screen name="Home" options={{ headerShown: false }} component={TabsCreen} />
     <AuthStack.Screen name="TabScreentest" options={{ headerShown: false }} component={MenuStackScreen} />
+    <AuthStack.Screen name="WhereHouse" options={{ headerShown: false }} component={WhereHouse} />
+    
 
   </AuthStack.Navigator>
 )
@@ -90,7 +92,7 @@ const HomeStackScreen = () => (
 
 const SearchStackScreen = () => (
   <SearchStack.Navigator>
-    <SearchStack.Screen name="Search" component={Search} />
+    <SearchStack.Screen name="Search"  options={{ headerShown: false }}  component={WhereHouse} />
   </SearchStack.Navigator>
 );
 const ProfileStackScreen = () => (
@@ -128,7 +130,7 @@ const TabsCreen = () => (
           <MaterialCommunityIcons name="home" color={color} size={26} />
         ),
       }}
-      name="Home" component={HomeStackScreen} />
+      name="Home" component={SearchStackScreen} />
     <Tabs.Screen
       options={{
         tabBarLabel: 'Updates',
@@ -136,7 +138,7 @@ const TabsCreen = () => (
           <MaterialCommunityIcons name="bell" color={color} size={26} />
         ),
       }}
-      name="Search" component={SearchStackScreen} />
+      name="Search" component={HomeStackScreen} />
     <Tabs.Screen
       options={{
         tabBarLabel: 'Profile',

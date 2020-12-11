@@ -1,7 +1,6 @@
 const IMAGE = {
     ICON_HOME_BLACK: require('../images/home-back.png'),
     ICON_HOME: require('../images/home.png'),
-
     ICON_COFFEE: require('../images/pngguru.com.png'),
     ICON_FOOD: require('../images/food.png'),
     ICON_BEVERAGE: require('../images/beverage.png'),
@@ -28,6 +27,10 @@ const IMAGE = {
     ICON_PROFILE: require('../images/profiled.png'),
     ICON_FAVOURITE1: require('../images/favorits1.jpg'),
     ICON_FAVOURITE2: require('../images/favourits2.jpg'),
+    ICON_MALOGO: require('../images/marlenlogo.jpg'),
+    ICON_WHEREHOUSE: require('../images/wherehouse.jpg'),
+    ICON_ICONS: require('../images/icons.jpg'),
+    ICON_SMILECOFFEE: require('../images/smileCoffee.jpg'),
 }
 
 export { IMAGE }

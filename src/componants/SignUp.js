@@ -30,27 +30,23 @@ export class SignUp extends Component {
 
     fetch('http://coffeeshopcheck3.000webhostapp.com/register', {
       method: 'post',
-      // header: {
-      //   'Accept': 'application/json',
-      //   'Content-Type': 'application/json',
-      // },
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "cus_name": TextInputName,
-        "cus_email": TextInputEmail,
-        "cus_mobile_number": TextInputPhone,
-        "cus_password": TextInputPassword
+        cus_name: TextInputName,
+        cus_email: TextInputEmail,
+        cus_mobile_number: TextInputPhone,
+        cus_password: TextInputPassword
 
       })
 
 
     }).then((response) => response.json())
       .then((responseJson) => {
-        Alert.alert(responseJson);
-        console.log("asas?>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + responseJson);
+        Alert.alert(responseJson.name);
+        // console.log("asas?>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + responseJson);
         // this.setState({
         //   isLoading: false,
         // }, function () {
@@ -151,7 +147,7 @@ export class SignUp extends Component {
             </Text>
               </TouchableHighlight> */}
             </Animatable.View>
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               onChangeText={(text) => this.setState({ text: text })}
               value={this.state.text}
@@ -160,7 +156,7 @@ export class SignUp extends Component {
               value={this.state.text}
               size={200}
               bgColor='black'
-              fgColor='white' />
+              fgColor='white' /> */}
           </View>
 
 

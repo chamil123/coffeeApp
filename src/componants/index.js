@@ -15,3 +15,4 @@ export * from './MainHome';
 export * from './SplashScreen';
 export * from './MainScreen';
 export * from './Cart';
+export * from './WhereHouse';

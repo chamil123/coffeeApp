@@ -118,7 +118,7 @@ export class MainHome extends Component {
                                                 </Image>
                                             </View>
                                             <View style={{ paddingRight: 5, paddingLeft: 5, marginTop: 35, flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-                                                <Text style={{ fontSize: 15 }}>sdsd</Text>
+                                                <Text style={{ fontSize: 15 }}>Coffee</Text>
                                                 <Text style={{ fontSize: 17, fontWeight: 'bold' }}>$45</Text>
                                             </View>
                                             <View style={{ paddingLeft: 5, alignContent: 'flex-start', width: '100%' }}>
@@ -136,7 +136,7 @@ export class MainHome extends Component {
                                                 </Image>
                                             </View>
                                             <View style={{ paddingRight: 5, paddingLeft: 5, marginTop: 35, flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-                                                <Text style={{ fontSize: 15 }}>sdsd</Text>
+                                                <Text style={{ fontSize: 15 }}>Foods</Text>
                                                 <Text style={{ fontSize: 17, fontWeight: 'bold' }}>$45</Text>
                                             </View>
                                             <View style={{ paddingLeft: 5, alignContent: 'flex-start', width: '100%' }}>
@@ -150,12 +150,12 @@ export class MainHome extends Component {
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('TabScreentest')}>
                                         <View style={styles.cardHorizontal} >
                                             <View style={{ height: 70, alignItems: 'center' }}>
-                                                <Image source={IMAGE.ICON_FOOD}
-                                                    style={{ height: 100, width: 120 }}>
+                                                <Image source={IMAGE.ICON_BEVERAGE}
+                                                    style={{ height: 80, width: 130 }}>
                                                 </Image>
                                             </View>
                                             <View style={{ paddingRight: 5, paddingLeft: 5, marginTop: 35, flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-                                                <Text style={{ fontSize: 15 }}>sdsd</Text>
+                                                <Text style={{ fontSize: 15 }}>Beverage</Text>
                                                 <Text style={{ fontSize: 17, fontWeight: 'bold' }}>$45</Text>
                                             </View>
                                             <View style={{ paddingLeft: 5, alignContent: 'flex-start', width: '100%' }}>
@@ -168,12 +168,12 @@ export class MainHome extends Component {
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('TabScreentest')}>
                                         <View style={styles.cardHorizontal} >
                                             <View style={{ height: 70, alignItems: 'center' }}>
-                                                <Image source={IMAGE.ICON_FOOD}
-                                                    style={{ height: 100, width: 120 }}>
+                                                <Image source={IMAGE.ICON_TEA}
+                                                    style={{ height: 100, width: 80 }}>
                                                 </Image>
                                             </View>
                                             <View style={{ paddingRight: 5, paddingLeft: 5, marginTop: 35, flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-                                                <Text style={{ fontSize: 15 }}>sdsd</Text>
+                                                <Text style={{ fontSize: 15 }}>Tea</Text>
                                                 <Text style={{ fontSize: 17, fontWeight: 'bold' }}>$45</Text>
                                             </View>
                                             <View style={{ paddingLeft: 5, alignContent: 'flex-start', width: '100%' }}>

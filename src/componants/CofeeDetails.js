@@ -7,6 +7,7 @@ import Star from 'react-native-star-view';
 import { CustomHeader } from '../index';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import UIStepper from 'react-native-ui-stepper';
+import AsyncStorage from '@react-native-community/async-storage';
 export class CofeeDetails extends Component {
   constructor(props) {
     super(props);
@@ -20,10 +21,11 @@ export class CofeeDetails extends Component {
 
   }
   insertInvoice = () => {
+    const myArray = AsyncStorage.getItem('cus_id');
     const { _id } = this.state;
     const { _qty } = this.state;
 
-
+    console.log(">?>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ??? : " + myArray);
     fetch('http://coffeeshopcheck3.000webhostapp.com/api/neworder', {
       method: 'POST',
       headers: {
@@ -31,7 +33,7 @@ export class CofeeDetails extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        user_id: '2',
+        user_id: this.state._cus_id,
         // imagename: 'sdasdasd',
         foods: [{
           product_id: _id,
@@ -55,8 +57,13 @@ export class CofeeDetails extends Component {
         // this.setState({ accountnameMain: account_nam });
       })
   }
-  componentDidMount() {
+  async componentDidMount() {
 
+    const myArray = await AsyncStorage.getItem('cus_id');
+    this.setState({
+      isLoading: false,
+      _cus_id: myArray,
+    });
 
     // const responseJson = await response;
     // .then((responseJson) => {
@@ -65,7 +72,7 @@ export class CofeeDetails extends Component {
 
     // Alert.alert("sadasd " + responseJson);
     // console.log(JSON.parse(responseJson));
-    // console.log("asdasdasdasd asd>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : " + responseJson);
+    console.log("asdasdasdasd asd>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : " + this.state._cus_id);
     // }).catch((error) => {
     //   console.error(error);
     // });
@@ -107,7 +114,7 @@ export class CofeeDetails extends Component {
           <View style={{ justifyContent: 'center', alignItems: 'center', margin: 30, marginTop: 0 }}>
             <ImageBackground
               source={{ uri: "http://coffeeshopcheck3.000webhostapp.com/images/food/" + img }}
-              style={{ height: '105%', width: '100%', resizeMode: 'contain',zIndex:-1 }}
+              style={{ height: '105%', width: '100%', resizeMode: 'contain', zIndex: -1 }}
             >
             </ImageBackground>
           </View>
