@@ -9,9 +9,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { CofeeDetails, TabScreentest, Cart, TestScreen, MainHome, SplashScreen, SignIn, Home, Profile, Search, Details, Menu, PlaceOrder, FirstPage, MainPage, SignUp, WhereHouse } from './src/componants'
-import { CustomHeader } from './src';
 
 
+import {  CustomDrawerContent } from './src';
 
 const AuthStack = createStackNavigator();
 const Tabs = createMaterialBottomTabNavigator();
@@ -22,6 +22,7 @@ const SearchStack = createStackNavigator();
 const StackApp = createStackNavigator();
 const MenuStack = createStackNavigator()
 const Drawer = createDrawerNavigator();
+const Wherehouse = createStackNavigator();
 
 const MenuStackScreen = () => (
   <MenuStack.Navigator>
@@ -31,9 +32,9 @@ const MenuStackScreen = () => (
 
 
 
-const DrawerStackScreen = () => (
-  <Drawer.Navigator>
-    <Drawer.Screen name="Home" component={TabsCreen} />
+const DrawerStackScreen = ({ navigation }) => (
+  <Drawer.Navigator  initialRouteName="HomeScreen" drawerStyle={{ backgroundColor: 'transparent' }} initialRouteName="HomeScreen" drawerStyle={{ backgroundColor: 'transparent' }} drawerContent={() => <CustomDrawerContent navigation={navigation}/>}>
+    <Drawer.Screen name="tabs" component={TabsCreen} />
     <Drawer.Screen name="Profile" component={ProfileStackScreen} />
   </Drawer.Navigator>
 )
@@ -47,18 +48,20 @@ const AuthStackScreen = () => (
     <AuthStack.Screen name="SignIn" options={{ headerShown: false }} component={SignIn} />
     <AuthStack.Screen name="SignUp" options={{ headerShown: false }} component={SignUp} />
     <AuthStack.Screen name="Menu" options={{ headerShown: true }} component={Menu} />
-
+    {/* 
     <AuthStack.Screen name="CofeeDetails" options={{ headerShown: false, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 } }} component={CofeeDetails} />
     <AuthStack.Screen name="MainHome" options={{ headerShown: true }} component={MainHome} />
     <AuthStack.Screen name="Home" options={{ headerShown: false }} component={TabsCreen} />
     <AuthStack.Screen name="TabScreentest" options={{ headerShown: false }} component={MenuStackScreen} />
-    <AuthStack.Screen name="WhereHouse" options={{ headerShown: false }} component={WhereHouse} />
-    
+    <AuthStack.Screen name="WhereHouse" options={{ headerShown: false }} component={WhereHouse} /> */}
+    {/* <AuthStack.Screen name="Home" options={{ headerShown: false }} component={DrawerStackScreen} /> */}
+
 
   </AuthStack.Navigator>
 )
 
-const HomeStackScreen = () => (
+const HomeStackScreen = ({ navigation }) => (
+
   <HomeStack.Navigator>
     <HomeStack.Screen name="MainHome" options={{
       headerShown: true, title: 'Home', headerTitleStyle: {
@@ -67,7 +70,7 @@ const HomeStackScreen = () => (
       , headerLeft: () => (
         <TouchableOpacity
           style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 18 }}
-          onPress={() => this.props.navigation.openDrawer()}
+          onPress={() => this.props.navigation.openDrawer()} 
         >
           <Icon
             // raised
@@ -75,7 +78,7 @@ const HomeStackScreen = () => (
             type='font-awesome'
             color='white'
             iconStyle={{ fontSize: 25, fontWeight: 'normal' }}
-            onPress={() => navigation.openDrawer()} />
+            onPress={() => this.props.navigation.openDrawer()}  />
         </TouchableOpacity>
       ),
     }} component={MainHome} />
@@ -85,15 +88,42 @@ const HomeStackScreen = () => (
     <HomeStack.Screen name="Menu" options={{ headerShown: true }} component={Menu} />
     <HomeStack.Screen name="PlaceOrder" options={{ headerShown: false }} component={PlaceOrder} />
     <HomeStack.Screen name="FirstPage" options={{ headerShown: false }} component={FirstPage} /> */}
-    <HomeStack.Screen name="Search" component={DrawerStackScreen} />
+    {/* <HomeStack.Screen name="Search" component={DrawerStackScreen} /> */}
   </HomeStack.Navigator>
 )
 
 
 const SearchStackScreen = () => (
   <SearchStack.Navigator>
-    <SearchStack.Screen name="Search"  options={{ headerShown: false }}  component={WhereHouse} />
+    <SearchStack.Screen name="wherehouse" options={{ headerShown: true }} component={WhereHouse} />
   </SearchStack.Navigator>
+);
+const WherehouseScreen = ({ navigation }) => (
+  <Wherehouse.Navigator>
+    <Wherehouse.Screen name="wherehouse" 
+    
+    options={{
+      headerShown: true, title: 'Home', headerTitleStyle: {
+        color: 'white',
+      }, headerStyle: { backgroundColor: '#3B7457', elevation: 0, shadowOpacity: 0, }
+      , headerLeft: () => (
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 18 }}
+          onPress={() => navigation.openDrawer()} 
+        >
+          <Icon
+            // raised
+            name='bars'
+            type='font-awesome'
+            color='white'
+            iconStyle={{ fontSize: 25, fontWeight: 'normal' }}
+            onPress={() => navigation.openDrawer()}  />
+        </TouchableOpacity>
+      ),
+    }}
+
+    component={WhereHouse} />
+  </Wherehouse.Navigator>
 );
 const ProfileStackScreen = () => (
   <ProfileStack.Navigator>
@@ -103,7 +133,7 @@ const ProfileStackScreen = () => (
 )
 const TabsCreen = () => (
   <Tabs.Navigator
-    initialRouteName="Home"
+    initialRouteName="wherehouse"
     activeColor="#009688"
     inactiveColor="#bdbdbd"
     barStyle={{ backgroundColor: 'white' }}
@@ -125,12 +155,12 @@ const TabsCreen = () => (
       //   },
       // })}
       options={{
-        tabBarLabel: 'Home',
+        tabBarLabel: 'wherehouse',
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="home" color={color} size={26} />
         ),
       }}
-      name="Home" component={SearchStackScreen} />
+      name="wherehouse" component={WherehouseScreen} />
     <Tabs.Screen
       options={{
         tabBarLabel: 'Updates',
@@ -138,10 +168,10 @@ const TabsCreen = () => (
           <MaterialCommunityIcons name="bell" color={color} size={26} />
         ),
       }}
-      name="Search" component={HomeStackScreen} />
+      name="Home" component={HomeStackScreen} />
     <Tabs.Screen
       options={{
-        tabBarLabel: 'Profile',
+        tabBarLabel: 'Home',
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="account" color={color} size={26} />
         ),
@@ -159,6 +189,7 @@ const TabsCreen = () => (
 )
 
 export default function App() {
+
   return (
     <NavigationContainer>
       {/* <Drawer.Navigator>
@@ -173,8 +204,16 @@ export default function App() {
         <AuthStack.Screen name="SignIn" options={{ headerShown: false }} component={SignIn} />
       </AuthStack.Navigator> */}
       <StackApp.Navigator initialRouteName="SplashScreen" >
+        <StackApp.Screen name="drawer" options={{ headerShown: false }} component={DrawerStackScreen} />
         <StackApp.Screen name="SplashScreen" options={{ headerShown: false }} component={SplashScreen} />
         <StackApp.Screen name="SignIn" options={{ headerShown: false }} component={AuthStackScreen} />
+
+
+        <StackApp.Screen name="CofeeDetails" options={{ headerShown: false, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 } }} component={CofeeDetails} />
+        <StackApp.Screen name="MainHome" options={{ headerShown: true }} component={MainHome} />
+        <StackApp.Screen name="Home" options={{ headerShown: false }} component={TabsCreen} />
+        <StackApp.Screen name="TabScreentest" options={{ headerShown: false }} component={MenuStackScreen} /> 
+         <StackApp.Screen name="WhereHouse" options={{ headerShown: false }} component={WhereHouse} />
 
       </StackApp.Navigator>
     </NavigationContainer>

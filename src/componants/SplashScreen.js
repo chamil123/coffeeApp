@@ -6,7 +6,7 @@ export class SplashScreen extends Component {
     constructor(props) {
         super(props)
         setTimeout(()=>{
-            this.props.navigation.navigate('SignIn')
+            this.props.navigation.navigate('drawer')
         },1000)
 
     }
@@ -14,7 +14,7 @@ export class SplashScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar barStyle="light-content" hidden={false} backgroundColor="#009688" />
+                <StatusBar barStyle="light-content" hidden={false} backgroundColor="#3B7457" />
                 <LinearGradient colors={['#009688', '#00897b']} style={styles.gradient}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:-20 }}>
                         <Image style={{ width: 210, height: 190,  }}
