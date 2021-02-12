@@ -16,3 +16,5 @@ export * from './SplashScreen';
 export * from './MainScreen';
 export * from './Cart';
 export * from './WhereHouse';
+export * from './AboutUs';
+export * from './AboutUsScreeen';

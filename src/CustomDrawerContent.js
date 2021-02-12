@@ -17,7 +17,7 @@ export class CustomDrawerContent extends Component {
             <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', opacity: 0.9 }}>
                 <ScrollView>
                     <View style={{backgroundColor:'#0C5D39',paddingTop:5,paddingBottom:10}}>
-                        <TouchableOpacity style={[{ paddingLeft:10,paddingRight:10,paddingTop:2 }]} activeOpacity={0.5} onPress={() => this.props.navigation.navigate('HomeScreen')}>
+                        <TouchableOpacity style={[{ paddingLeft:10,paddingRight:10,paddingTop:2 }]} activeOpacity={0.5} onPress={() => this.props.navigation.navigate('SignIn')}>
                             <View style={{ flexDirection: "row", padding: 5, backgroundColor: '#3B7457' }}>
                                 <Icon
 
@@ -31,7 +31,7 @@ export class CustomDrawerContent extends Component {
                             </View>
 
                         </TouchableOpacity>
-                        <TouchableOpacity style={[{  paddingLeft:10,paddingRight:10,paddingTop:2  }]} activeOpacity={0.5} onPress={() => this.props.navigation.navigate('member')}>
+                        <TouchableOpacity style={[{  paddingLeft:10,paddingRight:10,paddingTop:2  }]} activeOpacity={0.5} onPress={() =>   this.props.navigation.navigate('wherehouse')}>
                             <View style={{ flexDirection: "row", padding: 5, backgroundColor: '#3B7457' }}>
                                 <Icon
                                     name='home'
@@ -44,7 +44,7 @@ export class CustomDrawerContent extends Component {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={[{ paddingLeft:10,paddingRight:10,paddingTop:2  }]} activeOpacity={0.5} >
+                        <TouchableOpacity style={[{ paddingLeft:10,paddingRight:10,paddingTop:2  }]} activeOpacity={0.5}  onPress={() =>  this.props.navigation.navigate('AboutUsScreeen')}>
                             <View style={{ flexDirection: "row", padding: 5, backgroundColor: '#3B7457' }}>
                                 <Icon
                                     name='university'

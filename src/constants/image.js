@@ -27,10 +27,18 @@ const IMAGE = {
     ICON_PROFILE: require('../images/profiled.png'),
     ICON_FAVOURITE1: require('../images/favorits1.jpg'),
     ICON_FAVOURITE2: require('../images/favourits2.jpg'),
-    ICON_MALOGO: require('../images/marlenlogo.jpg'),
-    ICON_WHEREHOUSE: require('../images/wherehouse.jpg'),
+    ICON_MALOGO: require('../images/marlenlogo.png'),
+    ICON_WHEREHOUSE: require('../images/Group51.png'),
     ICON_ICONS: require('../images/icons.jpg'),
-    ICON_SMILECOFFEE: require('../images/smileCoffee.jpg'),
+    ICON_SMILECOFFEE: require('../images/smileCoffee.png'),
+    ICON_LEAF: require('../images/leaf.png'),
+    ICON_COFFEE: require('../images/cup.png'),
+    ICON_POLYGON: require('../images/Polygon.png'),
+    ICON_HOUSE: require('../images/house.png'),
+    ICON_ABTIMG1: require('../images/abtimg1.jpg'),
+    ICON_ABTIMG2: require('../images/abtimg2.jpg'),
+    ICON_ABTIMG3: require('../images/abtimg3.jpg'),
+    ICON_ABTIMG4: require('../images/abtimg4.jpg'),
 }
 
 export { IMAGE }

@@ -72,9 +72,9 @@ export class SignIn extends Component {
     return (
 
       <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="light-content" hidden={false} backgroundColor="#009688" />
-        <LinearGradient colors={['#009688', '#00897b']} style={styles.gradient}>
-          <CustomHeader title="" isHome={false} bdcolor='#009688' navigation={this.props.navigation} />
+        <StatusBar barStyle="light-content" hidden={false} backgroundColor="#3B7457" />
+        <LinearGradient colors={['#3B7457', '#3B7457']} style={styles.gradient}>
+          <CustomHeader title="" isHome={false} bdcolor='#3B7457' navigation={this.props.navigation} />
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
@@ -89,7 +89,7 @@ export class SignIn extends Component {
             </View>
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
               <Image style={{ width: 160, height: 140, marginLeft: 0 }}
-                source={IMAGE.ICON_LOGO2}
+                source={IMAGE.ICON_MALOGO}
                 resizeMode="contain"
               />
             </View>

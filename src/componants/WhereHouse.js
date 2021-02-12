@@ -6,6 +6,7 @@ export class WhereHouse extends Component {
         super(props)
 
     }
+    
 
     render() {
         return (
@@ -15,14 +16,14 @@ export class WhereHouse extends Component {
                 >
                     <View style={{ flex: 1, alignItems: 'center', marginTop: 20 }}>
                         <Image source={IMAGE.ICON_MALOGO}
-                            style={{ height: 80, width: 80 }}
+                            style={{ height: 85, width: 90 }}
                         >
 
                         </Image>
                         <Text style={{ fontSize: 50, fontWeight: 'bold' }}>Marlen's</Text>
                         <Text style={{ fontSize: 35, marginBottom: 10 }}>Warehouse</Text>
                         <Image source={IMAGE.ICON_WHEREHOUSE}
-                            style={{ height: 290, width: 290 }}
+                            style={{ height: 290, width: 350 }}
                         >
                         </Image>
 
@@ -51,7 +52,7 @@ export class WhereHouse extends Component {
                                 <Text style={{fontWeight:'bold',fontSize:20,color:'gray'}}>EVERY 6TH COFFEE FREE</Text>
                         <View style={{marginTop:10}}>
                         <Image source={IMAGE.ICON_SMILECOFFEE}
-                                style={{ height: 80, width: 220 }}
+                                style={{ height: 100, width: 220 }}
                             >
                             </Image>
                         </View>

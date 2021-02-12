@@ -22,9 +22,9 @@ export class MainHome extends Component {
         const { search } = this.state;
         return (
             <View style={{ flex: 1 }}>
-                <StatusBar barStyle="light-content" hidden={false} backgroundColor="#009688" />
+                <StatusBar barStyle="light-content" hidden={false} backgroundColor="#3B7457" />
 
-                <View style={{ backgroundColor: '#009688', height: 55, }}>
+                <View style={{ backgroundColor: '#3B7457', height: 55, }}>
                     <View style={{ marginTop: 0, paddingLeft: 15, paddingRight: 15, }}>
                         {/* <Text style={{fontSize:23,color:'white',fontWeight:'bold'}}>Welcome Marlan</Text>
                         <Text style={{fontSize:15,color:'white',marginTop:-5,marginBottom:5}}>Lest search sdasdas asd asd</Text> */}
