@@ -113,7 +113,7 @@ export class MainHome extends Component {
                                     <TouchableOpacity onPress={() => this.props.navigation.navigate('TabScreentest')}>
                                         <View style={styles.cardHorizontal} >
                                             <View style={{ height: 70, alignItems: 'center' }}>
-                                                <Image source={IMAGE.ICON_COFFEE}
+                                                <Image source={IMAGE.ICON_LATE}
                                                     style={{ height: 110, width: 130 }}>
                                                 </Image>
                                             </View>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, SafeAreaView, ImageBackground, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 import DynamicTabView from "react-native-dynamic-tab-view";
 import { Avatar } from 'react-native-elements';
+import * as Animatable from 'react-native-animatable';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 import ResponsiveImage from "react-native-responsive-image";
 import {
@@ -74,7 +75,7 @@ export class TabScreentest extends Component {
                             description: item.details[i]["description"],
                             price: item.details[i]["price"],
                         })}>
-                            <View style={{ height: 180, width:'100%',alignItems: 'center', justifyContent: 'center', }} >
+                            <Animatable.View animation="bounceIn" style={{ height: 180, width:'100%',alignItems: 'center', justifyContent: 'center', }} >
                                 {/* <ResponsiveImage
                                      source={{ uri: "http://coffeeshopcheck3.000webhostapp.com/images/food/" + item.details[i]["img"] }}
                                     initWidth="200"
@@ -89,7 +90,7 @@ export class TabScreentest extends Component {
                                 {/* <View style={{  }}>
                                     <Image source={{ uri: "http://coffeeshopcheck3.000webhostapp.com/images/food/" + item.details[i]["img"] }} style={{ width: 180, height: 140 }} />
                                 </View> */}
-                            </View>
+                            </Animatable.View>
                             <View style={{ paddingRight: 10, paddingLeft: 10, marginTop: -25, flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
                                 <Text style={{ fontSize: 15 }}>{item.details[i]["name"]}</Text>
                                 <Text style={{ fontSize: 17, fontWeight: 'bold' }}>$ {item.details[i]["price"]}</Text>

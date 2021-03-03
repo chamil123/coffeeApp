@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
-import { Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Image,StatusBar } from 'react-native';
+import { Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Image, StatusBar } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { IMAGE } from '../constants/image';
+import Database from '../Database';
+const db = new Database();
+
 export class SplashScreen extends Component {
     constructor(props) {
         super(props)
-        setTimeout(()=>{
+        setTimeout(() => {
             this.props.navigation.navigate('drawer')
-        },1000)
+        }, 1000)
+        db.initDB().then((result) => {
+            this.loadDbVarable(result);
+        })
+        this.loadDbVarable = this.loadDbVarable.bind(this);
+    }
+    loadDbVarable(result) {
+        this.setState({
+            dbs: result,
+        });
 
     }
 
@@ -16,8 +28,8 @@ export class SplashScreen extends Component {
             <View style={styles.container}>
                 <StatusBar barStyle="light-content" hidden={false} backgroundColor="#3B7457" />
                 <LinearGradient colors={['#3B7457', '#3B7457']} style={styles.gradient}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:-20 }}>
-                        <Image style={{ width: 210, height: 190,  }}
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: -20 }}>
+                        <Image style={{ width: 210, height: 190, }}
                             source={IMAGE.ICON_MALOGO}
                             resizeMode="contain"
                         />

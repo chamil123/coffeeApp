@@ -8,7 +8,16 @@ import { Icon } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { CofeeDetails, TabScreentest, Cart, TestScreen, MainHome, SplashScreen, SignIn, Home, Profile, Search, Details, Menu, PlaceOrder, FirstPage, MainPage, SignUp, WhereHouse, AboutUs, AboutUsScreeen } from './src/componants'
+
+import { createStore } from "redux";
+import mockMovies from './src/mockMovies';
+
+function movieReducer(state=mockMovies.Search, action) {
+  return state
+}
+import { Provider } from 'react-redux';
+const store = createStore(movieReducer);
+import { CofeeDetails, TabScreentest, Cart, TestScreen, MainHome, SplashScreen, SignIn, Home, Profile, Search, Details, Menu, PlaceOrder, FirstPage, MainPage, SignUp, WhereHouse, AboutUs, AboutUsScreeen, FoodForm, StripePayment, CardFormScreen, WishList } from './src/componants'
 
 
 import { CustomDrawerContent } from './src';
@@ -84,7 +93,7 @@ const HomeStackScreen = ({ navigation }) => (
         ),
       }}
       component={MainHome}
-       />
+    />
     {/* <HomeStack.Screen name="TabScreentest" options={{ headerShown: true, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 } }} component={TabScreentest} /> */}
     {/* <AuthStack.Screen name="Home" component={Home} />
     <HomeStack.Screen name="CofeeDetails" options={{ headerShown: false }} component={CofeeDetails} />
@@ -128,8 +137,8 @@ const WherehouseScreen = ({ navigation }) => (
         ),
       }}
 
-      component={WhereHouse} 
-      />
+      component={WhereHouse}
+    />
   </Wherehouse.Navigator>
 );
 const ProfileStackScreen = () => (
@@ -200,9 +209,9 @@ const TabsCreen = ({ navigation }) => (
           <MaterialCommunityIcons name="account" color={color} size={26} />
         ),
       }}
-      name="Profile" component={ProfileStackScreen} 
+      name="Profile" component={ProfileStackScreen}
       onPress={() => navigation.openDrawer()}
-      />
+    />
     <Tabs.Screen
       options={{
         tabBarLabel: 'Profile',
@@ -224,7 +233,8 @@ const TabsCreen = ({ navigation }) => (
 
 export default function App() {
 
-  return (
+    return (
+      <Provider store={store}>
     <NavigationContainer>
       {/* <Drawer.Navigator>
         <Drawer.Screen name="Home" component={TabsCreen} />
@@ -248,8 +258,13 @@ export default function App() {
         <StackApp.Screen name="WhereHouse" options={{ headerShown: false }} component={WhereHouse} />
         <StackApp.Screen name="AboutUs" options={{ headerShown: false }} component={AboutUsScreen} />
         <StackApp.Screen name="AboutUsScreeen" options={{ headerShown: false }} component={AboutUsScreeen} />
-
+        <StackApp.Screen name="Cart" options={{ headerShown: true }} component={Cart} />
+        <StackApp.Screen name="FoodForm" options={{ headerShown: true }} component={FoodForm} />
+        <StackApp.Screen name="CardFormScreen" options={{ headerShown: true }} component={CardFormScreen} />
+        <StackApp.Screen name="WishList" options={{ headerShown: false, }}  component={WishList} />
       </StackApp.Navigator>
     </NavigationContainer>
+    </Provider>
   );
+ 
 }

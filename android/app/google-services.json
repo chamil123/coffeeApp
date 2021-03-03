@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "970367789666",
+    "project_id": "coffeeshop-cc5d8",
+    "storage_bucket": "coffeeshop-cc5d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970367789666:android:d32d66545be8ca7bcb7f3b",
+        "android_client_info": {
+          "package_name": "org.reactjs.YouAndMe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970367789666-iop0br7d8oq2o1iplvkrgp6ou144596r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTt7mbC0YyKewr80mdG4BEcDmAeT6QbwM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970367789666-iop0br7d8oq2o1iplvkrgp6ou144596r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
