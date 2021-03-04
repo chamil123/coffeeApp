@@ -264,7 +264,9 @@ export class CofeeDetails extends Component {
         <CustomHeader title="" isPost isHome={false} bdcolor='#00897b' navigation={this.props.navigation} />
 
         <View style={styles.header}>
+          <View style={{ width: 290, height: 290, borderRadius: 200, backgroundColor: '#009984',zIndex:-1,position:'absolute',marginLeft:55 }}>
 
+          </View>
           <Animatable.View style={{ justifyContent: 'center', alignItems: 'center', margin: 30, marginTop: 0 }} animation="bounceInDown">
             <ImageBackground
               source={{ uri: "http://coffeeshopcheck3.000webhostapp.com/images/food/" + img }}
@@ -487,7 +489,7 @@ export class CofeeDetails extends Component {
 
             <View style={{ padding: 10, flexDirection: 'row', }}>
 
-              <TouchableOpacity style={styles.buttongeart}  onPress={() => this.props.navigation.navigate('WishList')}>
+              <TouchableOpacity style={styles.buttongeart} onPress={() => this.props.navigation.navigate('WishList')}>
                 <Icon name="heart-outline" size={25} style={{ color: '#00897b', padding: 0 }} />
               </TouchableOpacity>
 
@@ -518,7 +520,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   }, header: {
     flex: 2,
-    backgroundColor: '#00897b'
+    backgroundColor: '#00897b',
+ 
   }, footer: {
     backgroundColor: '#F2F2F2',
     flex: 3,

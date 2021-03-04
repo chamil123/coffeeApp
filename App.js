@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Icon } from 'react-native-elements';
+import { Avatar, Icon, Badge } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -12,7 +12,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { createStore } from "redux";
 import mockMovies from './src/mockMovies';
 
-function movieReducer(state=mockMovies.Search, action) {
+function movieReducer(state = mockMovies.Search, action) {
   return state
 }
 import { Provider } from 'react-redux';
@@ -36,7 +36,36 @@ const AboutUss = createStackNavigator();
 
 const MenuStackScreen = () => (
   <MenuStack.Navigator>
-    <MenuStack.Screen name="TabScreentest" options={{ headerShown: true, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 } }} component={TabScreentest} />
+    <MenuStack.Screen name="TabScreentest" options={{
+      headerRight: () => (
+        <TouchableOpacity >
+          <View style={{ padding: 20,marginRight:10 }}>
+
+            <Icon
+
+              name='shopping-cart'
+              type='font-awesome'
+              color='black'
+              iconStyle={{ fontSize: 30, fontWeight: 'normal' }}
+
+            />
+
+            <Badge
+              status="error"
+              value={5}
+              containerStyle={{ position: 'absolute', left: 40, top: 15 }}
+            />
+
+          </View>
+
+
+        </TouchableOpacity>
+      ),
+      headerShown: true, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 }
+    }}
+
+      component={TabScreentest} />
+
   </MenuStack.Navigator>
 );
 
@@ -233,38 +262,38 @@ const TabsCreen = ({ navigation }) => (
 
 export default function App() {
 
-    return (
-      <Provider store={store}>
-    <NavigationContainer>
-      {/* <Drawer.Navigator>
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        {/* <Drawer.Navigator>
         <Drawer.Screen name="Home" component={TabsCreen} />
         <Drawer.Screen name="Profile" component={ProfileStackScreen} />
       </Drawer.Navigator> */}
-      {/* <Tabs.Navigator>
+        {/* <Tabs.Navigator>
         <Tabs.Screen name="Home" component={HomeStackScreen} />
         <Tabs.Screen name="Profile" component={ProfileStackScreen} />
       </Tabs.Navigator> */}
-      {/* <AuthStack.Navigator>
+        {/* <AuthStack.Navigator>
         <AuthStack.Screen name="SignIn" options={{ headerShown: false }} component={SignIn} />
       </AuthStack.Navigator> */}
-      <StackApp.Navigator initialRouteName="SplashScreen" >
-        <StackApp.Screen name="drawer" options={{ headerShown: false }} component={DrawerStackScreen} />
-        <StackApp.Screen name="SplashScreen" options={{ headerShown: false }} component={SplashScreen} />
-        <StackApp.Screen name="SignIn" options={{ headerShown: false }} component={SignIn} />
-        <StackApp.Screen name="CofeeDetails" options={{ headerShown: false, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 } }} component={CofeeDetails} />
-        <StackApp.Screen name="MainHome" options={{ headerShown: true }} component={MainHome} />
-        <StackApp.Screen name="Home" options={{ headerShown: false }} component={TabsCreen} />
-        <StackApp.Screen name="TabScreentest" options={{ headerShown: false }} component={MenuStackScreen} />
-        <StackApp.Screen name="WhereHouse" options={{ headerShown: false }} component={WhereHouse} />
-        <StackApp.Screen name="AboutUs" options={{ headerShown: false }} component={AboutUsScreen} />
-        <StackApp.Screen name="AboutUsScreeen" options={{ headerShown: false }} component={AboutUsScreeen} />
-        <StackApp.Screen name="Cart" options={{ headerShown: true }} component={Cart} />
-        <StackApp.Screen name="FoodForm" options={{ headerShown: true }} component={FoodForm} />
-        <StackApp.Screen name="CardFormScreen" options={{ headerShown: true }} component={CardFormScreen} />
-        <StackApp.Screen name="WishList" options={{ headerShown: false, }}  component={WishList} />
-      </StackApp.Navigator>
-    </NavigationContainer>
+        <StackApp.Navigator initialRouteName="SplashScreen" >
+          <StackApp.Screen name="drawer" options={{ headerShown: false }} component={DrawerStackScreen} />
+          <StackApp.Screen name="SplashScreen" options={{ headerShown: false }} component={SplashScreen} />
+          <StackApp.Screen name="SignIn" options={{ headerShown: false }} component={SignIn} />
+          <StackApp.Screen name="CofeeDetails" options={{ headerShown: false, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 } }} component={CofeeDetails} />
+          <StackApp.Screen name="MainHome" options={{ headerShown: true }} component={MainHome} />
+          <StackApp.Screen name="Home" options={{ headerShown: false }} component={TabsCreen} />
+          <StackApp.Screen name="TabScreentest" options={{ headerShown: false }} component={MenuStackScreen} />
+          <StackApp.Screen name="WhereHouse" options={{ headerShown: false }} component={WhereHouse} />
+          <StackApp.Screen name="AboutUs" options={{ headerShown: false }} component={AboutUsScreen} />
+          <StackApp.Screen name="AboutUsScreeen" options={{ headerShown: false }} component={AboutUsScreeen} />
+          <StackApp.Screen name="Cart" options={{ headerShown: true }} component={Cart} />
+          <StackApp.Screen name="FoodForm" options={{ headerShown: true }} component={FoodForm} />
+          <StackApp.Screen name="CardFormScreen" options={{ headerShown: true }} component={CardFormScreen} />
+          <StackApp.Screen name="WishList" options={{ headerShown: true, }} component={WishList} />
+        </StackApp.Navigator>
+      </NavigationContainer>
     </Provider>
   );
- 
+
 }

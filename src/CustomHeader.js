@@ -80,7 +80,7 @@ export class CustomHeader extends Component {
           {
             isPost ?
               <TouchableOpacity onPress={() =>  this.props.navigation.navigate('Cart')}>
-                <View style={{  padding: 10 }}>
+                <View style={{  padding: 10,marginLeft:35 }}>
                   {/* 
                   <View style={{marginLeft:60}}>
                     <View style={{ zIndex: 5,top:0, backgroundColor: 'green', marginLeft:10}}>
@@ -108,7 +108,7 @@ export class CustomHeader extends Component {
                   <Badge
                     status="error"
                     value={5}
-                    containerStyle={{ position: 'absolute',left:70,top:5  }}
+                    containerStyle={{ position: 'absolute',left:55,top:5  }}
                   />
 
                 </View>

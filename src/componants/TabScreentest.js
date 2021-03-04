@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, SafeAreaView, ImageBackground, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 import DynamicTabView from "react-native-dynamic-tab-view";
-import { Avatar } from 'react-native-elements';
+import { CustomHeader } from '../index';
+
+import { Avatar,Icon, Badge } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 import ResponsiveImage from "react-native-responsive-image";
@@ -68,35 +70,44 @@ export class TabScreentest extends Component {
                 // <View key={item.val[i]["key"]} style={styles.container2}>
                 <View key={item.details[i].id} style={styles.box}>
                     <Card style={styles.card} >
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('CofeeDetails', {
+                        <TouchableOpacity  onPress={() => this.props.navigation.navigate('CofeeDetails', {
                             id: item.details[i].id,
                             img: item.details[i]["img"],
                             item_nme: item.details[i]["name"],
                             description: item.details[i]["description"],
                             price: item.details[i]["price"],
                         })}>
-                            <Animatable.View animation="bounceIn" style={{ height: 180, width:'100%',alignItems: 'center', justifyContent: 'center', }} >
+                             <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                            <Animatable.View animation="bounceIn" style={{ height: 180, width: '100%', alignItems: 'center', justifyContent: 'center', }} >
                                 {/* <ResponsiveImage
                                      source={{ uri: "http://coffeeshopcheck3.000webhostapp.com/images/food/" + item.details[i]["img"] }}
                                     initWidth="200"
                                     // initHeight="200"
                                 /> */}
-                                <ImageBackground
-                                    source={{ uri: "http://coffeeshopcheck3.000webhostapp.com/images/food/" + item.details[i]["img"] }}
-                                    style={{ flex: 1,alignSelf: 'stretch',
-                                    width: 180, height: 140, resizeMode:'cover ' }}
-                                >
-                                </ImageBackground>
+                               
+                                    <ImageBackground
+                                        source={{ uri: "http://coffeeshopcheck3.000webhostapp.com/images/food/" + item.details[i]["img"] }}
+                                        style={{
+                                            flex: 1, alignSelf: 'stretch',
+                                            resizeMode: 'cover',
+                                            width: 175, height: 160,
+                                            alignItems: 'center', justifyContent: 'center'
+                                        }}
+                                    >
+                                    </ImageBackground>
+                               
+
                                 {/* <View style={{  }}>
                                     <Image source={{ uri: "http://coffeeshopcheck3.000webhostapp.com/images/food/" + item.details[i]["img"] }} style={{ width: 180, height: 140 }} />
                                 </View> */}
                             </Animatable.View>
+                            </View>
                             <View style={{ paddingRight: 10, paddingLeft: 10, marginTop: -25, flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
                                 <Text style={{ fontSize: 15 }}>{item.details[i]["name"]}</Text>
                                 <Text style={{ fontSize: 17, fontWeight: 'bold' }}>$ {item.details[i]["price"]}</Text>
                             </View>
-                            <View style={{ paddingLeft: 10, alignContent: 'flex-start', width: '100%' }}>
-                                <Text style={{ fontSize: 11, color: 'gray' }}>
+                            <View  style={{ paddingLeft: 10, alignContent: 'flex-start', width: '100%' }}>
+                                <Text numberOfLines={3} ellipsizeMode="tail" style={{ fontSize: 11, color: 'gray' }}>
                                     {item.details[i]["description"]}
                                 </Text>
                             </View>
@@ -150,7 +161,8 @@ export class TabScreentest extends Component {
             return (
                 <SafeAreaView style={{ flex: 1, backgroundColor: '#afcecb' }}>
                     <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#fff" />
-                    <View style={{ flex: 1,  alignItems: 'center',marginTop:20 }}>
+                    {/* <CustomHeader title="" isPost isHome={false} bdcolor='#00897b' navigation={this.props.navigation} /> */}
+                    <View style={{ flex: 1, alignItems: 'center', marginTop: 20 }}>
                         <Avatar
                             rounded
                             size={38}
@@ -210,7 +222,7 @@ const styles = StyleSheet.create({
         height: 500,
     }
     , card: {
-        height: 220,
+        height: 230,
         backgroundColor: 'rgba(255, 255, 255,1)',
         borderRadius: 15,
         elevation: 1,

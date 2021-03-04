@@ -269,7 +269,7 @@ export class Cart extends Component {
               style={styles.scrollView}>
               <FlatList
 
-
+               
                 contentContainerStyle={{
                   padding: 15,
                   paddingTop: StatusBar.currentHeight || 0
