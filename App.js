@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Text, View, TouchableOpacity } from 'react-native';
+import { Button, Text, View, TouchableOpacity,LogBox  } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, } from '@react-navigation/drawer';
@@ -8,7 +8,7 @@ import { Avatar, Icon, Badge } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+LogBox.ignoreAllLogs(true);
 import { createStore } from "redux";
 import mockMovies from './src/mockMovies';
 
@@ -17,9 +17,9 @@ function movieReducer(state = mockMovies.Search, action) {
 }
 import { Provider } from 'react-redux';
 const store = createStore(movieReducer);
-import { CofeeDetails, TabScreentest, Cart, TestScreen, MainHome, SplashScreen, SignIn, Home, Profile, Search, Details, Menu, PlaceOrder, FirstPage, MainPage, SignUp, WhereHouse, AboutUs, AboutUsScreeen, FoodForm, StripePayment, CardFormScreen, WishList } from './src/componants'
+import { CofeeDetails, TabScreentest, Cart,StripPaymentwebview, TestScreen, MainHome, SplashScreen, SignIn, Home, Profile, Search, Details, Menu, PlaceOrder, FirstPage, MainPage, SignUp, WhereHouse, AboutUs, AboutUsScreeen, FoodForm, StripePayment, CardFormScreen, WishList } from './src/componants'
 
-
+import { CartComponant } from './src';
 import { CustomDrawerContent } from './src';
 
 const AuthStack = createStackNavigator();
@@ -34,37 +34,43 @@ const Drawer = createDrawerNavigator();
 const Wherehouse = createStackNavigator();
 const AboutUss = createStackNavigator();
 
-const MenuStackScreen = () => (
+const MenuStackScreen = ({ navigation }) => (
   <MenuStack.Navigator>
     <MenuStack.Screen name="TabScreentest" options={{
       headerRight: () => (
-        <TouchableOpacity >
-          <View style={{ padding: 20,marginRight:10 }}>
+        <CartComponant navigation={navigation} />
+      )
+     
+      // (
+      //   <TouchableOpacity >
+      //     <View style={{ padding: 20,marginRight:10 }}>
 
-            <Icon
+      //       <Icon
 
-              name='shopping-cart'
-              type='font-awesome'
-              color='black'
-              iconStyle={{ fontSize: 30, fontWeight: 'normal' }}
+      //         name='shopping-cart'
+      //         type='font-awesome'
+      //         color='black'
+      //         iconStyle={{ fontSize: 30, fontWeight: 'normal' }}
 
-            />
+      //       />
 
-            <Badge
-              status="error"
-              value={5}
-              containerStyle={{ position: 'absolute', left: 40, top: 15 }}
-            />
+      //       <Badge
+      //         status="error"
+      //         value={5}
+      //         containerStyle={{ position: 'absolute', left: 40, top: 15 }}
+      //       />
 
-          </View>
+      //     </View>
 
 
-        </TouchableOpacity>
-      ),
+      //   </TouchableOpacity>
+      // )
+      ,
       headerShown: true, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 }
     }}
 
-      component={TabScreentest} />
+      component={TabScreentest}
+       />
 
   </MenuStack.Navigator>
 );
@@ -166,7 +172,7 @@ const WherehouseScreen = ({ navigation }) => (
         ),
       }}
 
-      component={WhereHouse}
+      component={MainHome}
     />
   </Wherehouse.Navigator>
 );
@@ -290,7 +296,8 @@ export default function App() {
           <StackApp.Screen name="Cart" options={{ headerShown: true }} component={Cart} />
           <StackApp.Screen name="FoodForm" options={{ headerShown: true }} component={FoodForm} />
           <StackApp.Screen name="CardFormScreen" options={{ headerShown: true }} component={CardFormScreen} />
-          <StackApp.Screen name="WishList" options={{ headerShown: true, }} component={WishList} />
+          <StackApp.Screen name="WishList" options={{  headerShown: false,headerStyle: { backgroundColor: '#fff', elevation: 0 }   }} component={WishList} />
+          <StackApp.Screen name="StripPaymentwebview" options={{ headerShown: true, }} component={StripPaymentwebview} />
         </StackApp.Navigator>
       </NavigationContainer>
     </Provider>

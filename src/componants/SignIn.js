@@ -22,7 +22,7 @@ export class SignIn extends Component {
     const { TextInputEmail } = this.state;
     const { TextInputPassword } = this.state;
 
-    fetch('http://coffeeshopcheck3.000webhostapp.com/login', {
+    fetch('http://satasmemiy.tk/login', {
       method: 'post',
       headers: {
         'Accept': 'application/json',

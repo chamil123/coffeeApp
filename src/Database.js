@@ -83,7 +83,7 @@ export default class Database {
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $$$ : " + data.p_id)
         return new Promise((resolve) => {
             db.transaction((tx) => {
-                tx.executeSql('INSERT OR IGNORE  INTO cart (pId,pName,pDescription,pPrice,pOnePrice,pQty,pImage,pStatus) VALUES ( ?,?,?,?,?,?,?,?)', [data.p_id, data.p_name, data.p_description, data.p_price,data.p_price, data.pQty, data.p_image, 1]).then(([tx, results]) => {
+                tx.executeSql('INSERT OR IGNORE  INTO cart (pId,pName,pDescription,pPrice,pOnePrice,pQty,pImage,pStatus) VALUES ( ?,?,?,?,?,?,?,?)', [data.p_id, data.p_name, data.p_description, data.p_price, data.p_price, data.pQty, data.p_image, 1]).then(([tx, results]) => {
                     resolve(results);
                 });
 
@@ -103,7 +103,7 @@ export default class Database {
                     var len = results.rows.length;
                     for (let i = 0; i < len; i++) {
                         let row = results.rows.item(i);
-                        const { cId, pId, pName, pDescription, pPrice,pOnePrice, pStatus, pImage, pQty } = row;
+                        const { cId, pId, pName, pDescription, pPrice, pOnePrice, pStatus, pImage, pQty } = row;
                         cart_data.push({
                             cId,
                             pId,
@@ -137,7 +137,52 @@ export default class Database {
                 console.log(err);
             });;
         });
-    } listCartItems(db) {
+    }
+
+    countMotherBag(db) {
+        return new Promise((resolve) => {
+            let motherbag_count;
+            db.transaction((tx) => {
+                tx.executeSql('SELECT COUNT(hId) AS motherbagcount FROM Hospitalbagmother WHERE hStatus="true"', []).then(([tx, results]) => {
+                    var len = results.rows.length;
+                    for (let i = 0; i < len; i++) {
+                        let row = results.rows.item(i);
+                        const { motherbagcount } = row;
+                        motherbag_count = motherbagcount;
+                    }
+                    resolve(motherbag_count);
+                });
+            }).then((result) => {
+            }).catch((err) => {
+            });
+        });
+    }
+
+    cartCont(db) {
+        return new Promise((resolve) => {
+            let cart_count;
+            db.transaction((tx) => {
+
+                tx.executeSql('SELECT COUNT(cId) AS cartcount FROM cart', []).then(([tx, results]) => {
+                    var len = results.rows.length;
+                    for (let i = 0; i < len; i++) {
+                        let row = results.rows.item(i);
+                        const { cartcount } = row;
+                        cart_count = cartcount;
+                     
+                    }
+                    resolve(cart_count);
+                });
+            }).then((result) => {
+
+            }).catch((err) => {
+                console.log(err);
+            });
+        });
+    }
+
+
+    listCartItems(db) {
         return new Promise((resolve) => {
             const cart_item = [];
             db.transaction((tx) => {
@@ -145,7 +190,7 @@ export default class Database {
                     var len = results.rows.length;
                     for (let i = 0; i < len; i++) {
                         let row = results.rows.item(i);
-                        const { cId, pId, pName, pDescription, pPrice,pOnePrice, pStatus, pImage, pQty } = row;
+                        const { cId, pId, pName, pDescription, pPrice, pOnePrice, pStatus, pImage, pQty } = row;
                         cart_item.push({
                             cId,
                             pId,
@@ -168,12 +213,12 @@ export default class Database {
             });
         });
     }
-    
-    updateCart(db,newPrice, id) {
-        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& : "+newPrice);
+
+    updateCart(db, newPrice, id) {
+        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& : " + newPrice);
         return new Promise((resolve) => {
             db.transaction((tx) => {
-                tx.executeSql('UPDATE cart SET pQty =pQty + ?,pPrice=?   WHERE pId = ?', [1,newPrice, id]).then(([tx, results]) => {
+                tx.executeSql('UPDATE cart SET pQty =pQty + ?,pPrice=?   WHERE pId = ?', [1, newPrice, id]).then(([tx, results]) => {
                     resolve(results);
                 });
             }).then((result) => {
@@ -184,10 +229,10 @@ export default class Database {
     }
 
     addItemQty(db, data) {
-    
+
         return new Promise((resolve) => {
             db.transaction((tx) => {
-                tx.executeSql('UPDATE cart SET pQty =pQty + ?,pPrice=?   WHERE pId = ?', [data.pQty,data._pPrice, data.pId]).then(([tx, results]) => {
+                tx.executeSql('UPDATE cart SET pQty =pQty + ?,pPrice=?   WHERE pId = ?', [data.pQty, data._pPrice, data.pId]).then(([tx, results]) => {
                     resolve(results);
                 });
             }).then((result) => {
@@ -198,7 +243,7 @@ export default class Database {
     } subItemQty(db, data) {
         return new Promise((resolve) => {
             db.transaction((tx) => {
-                tx.executeSql('UPDATE cart SET pQty =pQty - ?,pPrice=?   WHERE pId = ?', [data.pQty,data._pPrice, data.pId]).then(([tx, results]) => {
+                tx.executeSql('UPDATE cart SET pQty =pQty - ?,pPrice=?   WHERE pId = ?', [data.pQty, data._pPrice, data.pId]).then(([tx, results]) => {
                     resolve(results);
                 });
             }).then((result) => {
@@ -207,8 +252,8 @@ export default class Database {
             });
         });
     }
-    getItemById(db,id) {
-        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&& : "+id);
+    getItemById(db, id) {
+        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&& : " + id);
         return new Promise((resolve) => {
             const cart_item = [];
             db.transaction((tx) => {
@@ -220,9 +265,9 @@ export default class Database {
                         cart_item.push({
                             cId,
                             pId,
-                           
+
                             pPrice,
-                           
+
                             pQty
                         });
                     }

@@ -22,3 +22,4 @@ export * from './FoodForm';
 export * from './CardFormScreen';
 export * from './Button';
 export * from './WishList';
+export * from './StripPaymentwebview';

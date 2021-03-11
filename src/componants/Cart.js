@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Text, View, SafeAreaView, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { List, ListItem, Left, Body, Right } from 'native-base';
 import { Icon, Avatar } from 'react-native-elements';
@@ -9,10 +9,26 @@ import * as Animatable from 'react-native-animatable';
 import Database from '../Database';
 import { StatusBar } from 'react-native';
 import { parse } from 'react-native-svg';
+import { Button } from 'react-native-elements';
+// import Button from '../components/Button';
+import stripe from 'tipsi-stripe';
 const db = new Database();
 
+stripe.setOptions({
+  publishableKey: 'pk_test_Wim6Z9pN58qzMYDDXvsPMrR0',
 
-export class Cart extends Component {
+})
+
+export class Cart extends PureComponent {
+  static title = 'Card Form'
+
+  state = {
+    loading: false,
+    token: null,
+    success: null
+  }
+
+
   constructor(props) {
     super(props)
     this.state = {
@@ -21,7 +37,8 @@ export class Cart extends Component {
       _list_elimination: [],
       _pQty: 1,
       _pPrice: 5,
-      _total: 0
+      _total: 0,
+      tokenId: ''
     }
 
     db.initDB().then((result) => {
@@ -132,8 +149,70 @@ export class Cart extends Component {
       movies: data.Search
     })
   }
-  renderItem = ({ item }) => {
 
+
+  doPayment = async () => {
+
+    // Use firebase serve for local testing if you don't have a paid firebase account
+    fetch('https://us-central1-flawless-lacing-307006.cloudfunctions.net/payWithStripe', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: (this.state._total)*100,
+        currency: "aud",
+        token: this.state.tokenId,
+        payment_method_types: ['card'],
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          success: responseJson.status == 'succeeded' ? true : false,
+          response: responseJson
+        })
+      })
+      .catch((error) => {
+        console.error(error);
+      });;
+  }
+
+  handleCardPayPress = async () => {
+
+
+    try {
+
+
+      const token = await stripe.paymentRequestWithCardForm({
+        // Only iOS support this options
+        // smsAutofillDisabled: true,
+        requiredBillingAddressFields: 'full',
+        prefilledInformation: {
+          billingAddress: {
+            name: 'Gunilla Haugeh',
+            line1: 'Canary Place',
+            line2: '3',
+            city: 'Macon',
+            state: 'Georgia',
+            country: 'US',
+            postalCode: '31217',
+          },
+        },
+      })
+
+      this.setState({
+        tokenId: token.id,
+        loading: false,
+        token
+      })
+    } catch (error) {
+      this.setState({ loading: false })
+    }
+  }
+  renderItem = ({ item }) => {
     return (
       <Animatable.View animation="flipInX">
         <ListItem
@@ -144,7 +223,6 @@ export class Cart extends Component {
             backgroundColor: 'rgba(255,255,255,0.9)',
             borderRadius: 16,
             shadowColor: "#000",
-
             shadowOffset: {
               width: 0,
               height: 10
@@ -152,15 +230,13 @@ export class Cart extends Component {
             shadowOpacity: 1,
             shadowRadius: 20,
             marginLeft: 0
-
-
           }}
         >
 
           <Left style={{ paddingLeft: 10 }}>
             <View >
 
-              <Image source={{ uri: 'http://coffeeshopcheck3.000webhostapp.com/images/food/' + item.pImage }} style={{ width: 90, height: 80 }} />
+              <Image source={{ uri: 'http://satasmemiy.tk/images/food/' + item.pImage }} style={{ width: 90, height: 80 }} />
             </View>
           </Left>
           <Body style={{ marginLeft: -60 }}>
@@ -214,8 +290,7 @@ export class Cart extends Component {
                 }}
                 onPress={() => this.addItem(item.pId, item.pOnePrice, item.pQty)}
               />
-              {/* <Text style={styles.dateText,{marginTop:5}}>{item.pStatus} <Text style={{ color: 'gray' }}>{item.pPrice}</Text></Text>
-          <Text style={styles.dateText,{marginTop:5}}>{item.pStatus} <Text style={{ color: 'gray' }}>{item.pPrice}</Text></Text> */}
+
             </View>
 
           </Body>
@@ -231,15 +306,6 @@ export class Cart extends Component {
 
             </View>
 
-            {/* <Icon
-              type='material'
-  
-              iconStyle={{ fontSize: 18 }}
-              name="close" color="black"
-              onPress={() => {
-
-              }}
-            /> */}
 
           </Right>
 
@@ -252,6 +318,7 @@ export class Cart extends Component {
 
   keyExtractor = (item, index) => index.toString()
   render() {
+    const { loading, token, success, response } = this.state
     const { movies } = this.state
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -260,16 +327,11 @@ export class Cart extends Component {
           <View style={{ marginLeft: 20, marginTop: 30 }}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>My Order</Text>
           </View>
-
-
-
           <View style={styles.container}>
             <ScrollView
               contentInsetAdjustmentBehavior="automatic"
               style={styles.scrollView}>
               <FlatList
-
-               
                 contentContainerStyle={{
                   padding: 15,
                   paddingTop: StatusBar.currentHeight || 0
@@ -279,10 +341,8 @@ export class Cart extends Component {
                 keyExtractor={this.keyExtractor}
                 data={this.state._list_elimination}
                 renderItem={this.renderItem}
-
               />
             </ScrollView>
-            {/* alignItems: 'flex-end', */}
             <View style={{ alignItems: 'flex-end', backgroundColor: 'white', borderRadius: 20 }}>
 
               <View style={{ padding: 10, flexDirection: 'row', }}>
@@ -291,11 +351,62 @@ export class Cart extends Component {
                   <Text style={{ paddingLeft: 13, paddingRight: 13, fontWeight: 'bold', fontSize: 18, }}>US ${this.state._total}</Text>
                 </View>
 
-                <TouchableOpacity style={styles.buttonstyle}
-                  onPress={() => this.props.navigation.navigate('StripePayment')}
+                {/* <TouchableOpacity style={styles.buttonstyle}
+                  onPress={() => this.props.navigation.navigate('CardFormScreen')}
                 >
                   <Text style={{ color: 'white' }}>check out</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                {/* <Text style={styles.instruction}></Text> */}
+                {
+                  token == null ?
+                    <TouchableOpacity style={styles.buttonstyle}
+                      loading={loading}
+                      onPress={this.handleCardPayPress}
+                    // onPress={() => this.props.navigation.navigate('CardFormScreen')}
+                    >
+                      <Text style={{ color: 'white' }}>check out</Text>
+                    </TouchableOpacity>
+                    : <View
+
+
+                    >
+                      {token && (
+                        <Button
+                          // loading={loading}
+                          title="Pay"
+                          width="470"
+                          titleStyle={{ color: 'white' }}
+                          buttonStyle={{ borderRadius: 25, width: "100%", borderColor: 'white', color: 'white', }}
+                          onPress={this.doPayment}
+
+                        >
+                        </Button>
+                        // <Button 
+                        //   loading={loading}
+                        //   // loading={loading}
+                        //   onPress={this.doPayment}
+                        // >
+                        //   <Text style={{ color: 'white',fontSize:20 }}>Pay</Text>
+                        // </Button>
+                      )}
+                      {success &&
+                        <>
+                          <Text style={styles.instruction}>
+                            Status: {response.status}
+                          </Text>
+                          <Text style={styles.instruction}>
+                            ID: {response.id}
+                          </Text>
+                          <Text style={styles.instruction}>
+                            Amount: {response.amount}
+                          </Text>
+                        </>
+                      }
+                    </View>
+
+                }
+
+
 
               </View>
 
@@ -324,6 +435,16 @@ const styles = StyleSheet.create({
     width: 110,
   }, buttonstyle: {
     backgroundColor: "#009984",
+    borderRadius: 15,
+    width: "70%",
+    padding: 0,
+    height: 55,
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  },
+  paybuttonstyle: {
+    backgroundColor: "red",
     borderRadius: 15,
     width: "70%",
     padding: 0,

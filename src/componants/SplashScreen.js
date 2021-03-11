@@ -3,11 +3,14 @@ import { Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Image, StatusBa
 import LinearGradient from 'react-native-linear-gradient';
 import { IMAGE } from '../constants/image';
 import Database from '../Database';
+
 const db = new Database();
 
 export class SplashScreen extends Component {
+    
     constructor(props) {
         super(props)
+
         setTimeout(() => {
             this.props.navigation.navigate('drawer')
         }, 1000)

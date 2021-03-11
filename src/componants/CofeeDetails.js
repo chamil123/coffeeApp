@@ -10,17 +10,23 @@ import UIStepper from 'react-native-ui-stepper';
 import AsyncStorage from '@react-native-community/async-storage';
 import moment from 'moment';
 import Database from '../Database';
-import { SliderPicker } from 'react-native-slider-picker';
+
 import { TagSelect } from 'react-native-tag-select';
 import * as Animatable from 'react-native-animatable';
 import SwitchSelector from "react-native-switch-selector";
+import {
+  BallIndicator,
+  BarIndicator,
+  DotIndicator,
+  MaterialIndicator,
+  PacmanIndicator,
+  PulseIndicator,
+  SkypeIndicator,
+  UIActivityIndicator,
+  WaveIndicator,
+} from 'react-native-indicators';
 const db = new Database();
 
-const options = [
-  { label: "Small", value: "15" },
-  { label: "Medium", value: "30" },
-  { label: "Large", value: "45" }
-];
 const sugar = [
   { label: "White", value: "15" },
   { label: "Brown", value: "30" },
@@ -31,7 +37,8 @@ export class CofeeDetails extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      _price: options[0].value,
+      // _price: options[0].value,
+      _price: 0,
       _name: this.props.route.params.item_nme,
       _id: this.props.route.params.id,
       _image: this.props.route.params.img,
@@ -43,8 +50,24 @@ export class CofeeDetails extends Component {
       position: 0,
       addextra_total: 0,
       sml_val: 0,
+      gros_total:0,
       SelectedButton: '',
-      param_price: this.props.route.params.price
+      param_price: this.props.route.params.price,
+      _coffeeAditionValue: 0,
+      options: [
+        // { label: "Small", value: "0" },
+        // { label: "Medium", value: "0" },
+        // { label: "Large", value: "0" },
+        // { label: "Medium", value: "30" },
+        // { label: "Large", value: "45" }
+      ],
+      data: [
+        { id: 1, label: 'Full Cream', val: '0' },
+        { id: 2, label: 'Skim', val: '0' },
+        { id: 3, label: 'Soy', val: '0' },
+        { id: 4, label: 'Almond', val: '0' },
+        { id: 5, label: 'Oat', val: '0' },
+      ],
 
     };
     db.initDB().then((result) => {
@@ -54,12 +77,12 @@ export class CofeeDetails extends Component {
 
   }
   changeSML(value) {
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : " + value);
     var smlval = value;
     var total = parseFloat(smlval);
-    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>" + total);
+
     this.setState({
-      sml_val: total
+      sml_val: total,
+      // gros_total:  total,
     })
   }
   loadDbVarable(result) {
@@ -67,32 +90,54 @@ export class CofeeDetails extends Component {
       dbs: result,
     });
 
-  }
-  valueChange(position) {
-
-
-    // this.setState({
-    //   colors: 'red',
-    //   position:position
-    // });
-
 
   }
-  componentDidUpdate() {
+  getFoodById() {
+    fetch('http://satasmemiy.tk/getFoodById/' + this.props.route.params.id, {
+      method: 'get',
+      header: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
 
-    // if (position == 1) {
-    //   console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : " + position);
-    //   this.setState({
-    //     colors: 'red',
-    //     position:position
-    //   });
-    // } else if (position == 2) {
-    //   console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ : " + position);
-    //   // this.setState({
-    //   //   labelSizes: 22,
-    //   // });
-    // }
+
+    }).then((response) => response.json())
+      .then((responseJson) => {
+        var result = [];
+        var addExtra = [];
+        var smallPrice = 0;
+        var datas = JSON.stringify(responseJson.details);
+
+        // console.log(">>>>>>>>>>>>>>>> response json : " + responseJson.details.length);
+        if (responseJson.details.length != 0) {
+          smallPrice = responseJson.details[0].price;
+          console.log(">>>>>>>>>>>>>>>> response json : " + responseJson.details[0].price);
+          responseJson.details.forEach(subProduct => {
+            result.push({ label: subProduct.size, value: subProduct.id });
+          });
+          responseJson.data.forEach(extra => {
+            addExtra.push({ id: extra.id, label: extra.label, val: extra.val });
+          });
+          // console.log(addExtra);
+
+          this.setState({
+            isLoading: false,
+            options: result,
+            data: addExtra,
+            _coffeeAditionValue: 1,
+            sml_val: smallPrice
+          }, function () {
+
+          });
+        }
+        // console.log(responseJson.details);
+        // var datas=JSON.stringify(responseJson);
+
+      }).catch((error) => {
+        console.error(error);
+      })
   }
+
   addToCart = () => {
     let { pId, pOnePrice, pQty, newPrice = 0, innervalue = 0 } = this.props
     let dataa = {
@@ -107,7 +152,9 @@ export class CofeeDetails extends Component {
       let result = data;
       if (result == 0) {
         db.addtocart(this.state.dbs, dataa).then((result) => {
-          this.props.navigation.navigate('TabScreentest');
+          this.props.navigation.navigate('TabScreentest', {
+            userName: '',
+          });
         }).catch((err) => {
           console.log(err);
         })
@@ -153,7 +200,7 @@ export class CofeeDetails extends Component {
     const { _id } = this.state;
     const { _qty } = this.state;
 
-    fetch('http://coffeeshopcheck3.000webhostapp.com/api/neworder', {
+    fetch('http://satasmemiy.tk/images/food/api/neworder', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -178,7 +225,7 @@ export class CofeeDetails extends Component {
       })
   }
   async componentDidMount() {
-
+    this.getFoodById();
     const myArray = await AsyncStorage.getItem('cus_id');
     this.setState({
       isLoading: false,
@@ -208,13 +255,17 @@ export class CofeeDetails extends Component {
     // });
   }
   setValue = (value) => {
-    var price = this.state.param_price * value;
+    var price = ( this.state.addextra_total+this.state.sml_val)  * value;
     this.setState({
       isLoading: false,
-      _price: price,
-      _qty: value
-    })
+      // _price: price,
+      _qty: value,
 
+    })
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : "+(this.state._price) );
+    console.log("#################################################### : "+( this.state.addextra_total ));
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : "+( this.state.sml_val));
+// parseFloat(this.state._price) + parseFloat(this.state.addextra_total) + parseFloat(this.state.sml_val)
 
   }
   // _handleClick(button) {
@@ -239,274 +290,221 @@ export class CofeeDetails extends Component {
     valuesArray.map(item => {
       total += parseFloat(item.val);
     })
-    this.setState({ addextra_total: total })
+    this.setState({
+      addextra_total: total,
+      // gros_total: parseFloat(this.state.gros_total) + addextra_total
+    })
   }
   render() {
-    const data = [
-      { id: 1, label: 'Full Cream', val: '5' },
-      { id: 2, label: 'Skim', val: '10' },
-      { id: 3, label: 'Soy', val: '15' },
-      { id: 4, label: 'Almond', val: '25' },
-      { id: 5, label: 'Oat', val: '20' },
-    ];
+    let { isLoading } = this.state
 
-    const { img, item_nme, description, price } = this.props.route.params;
+    const { id, img, item_nme, description, price } = this.props.route.params;
     const starStyle = {
       width: 100,
       height: 20,
       marginBottom: 0,
       marginTop: 0,
     };
+    if (isLoading) {
+      return (
+        <BarIndicator color='#fbb146' />
+      );
+    } else {
+      return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#00897b' }}>
+          <StatusBar barStyle="light-content" hidden={false} backgroundColor="#00897b" />
+          <CustomHeader title="" isPost isHome={false} bdcolor='#00897b' navigation={this.props.navigation} />
 
-    return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#00897b' }}>
-        <StatusBar barStyle="light-content" hidden={false} backgroundColor="#00897b" />
-        <CustomHeader title="" isPost isHome={false} bdcolor='#00897b' navigation={this.props.navigation} />
+          <View style={styles.header}>
+            <View style={{ width: 290, height: 290, borderRadius: 200, backgroundColor: '#009984', zIndex: -1, position: 'absolute', marginLeft: 55 }}>
 
-        <View style={styles.header}>
-          <View style={{ width: 290, height: 290, borderRadius: 200, backgroundColor: '#009984',zIndex:-1,position:'absolute',marginLeft:55 }}>
-
-          </View>
-          <Animatable.View style={{ justifyContent: 'center', alignItems: 'center', margin: 30, marginTop: 0 }} animation="bounceInDown">
-            <ImageBackground
-              source={{ uri: "http://coffeeshopcheck3.000webhostapp.com/images/food/" + img }}
-              style={{ height: '105%', width: '100%', resizeMode: 'contain', zIndex: -1 }}
-            >
-            </ImageBackground>
-          </Animatable.View>
-          <View style={{ flexDirection: 'row-reverse', marginHorizontal: 30, top: -25 }}>
-            <Avatar
-              rounded
-              size={48}
-              containerStyle={{
-                backgroundColor: 'white',
-                shadowColor: 'rgba(0,0,0, .4)', // IOS
-                shadowOffset: { height: 2, width: 5 },  // IOS
-                shadowOpacity: 3, // IOS
-                shadowRadius: 5, elevation: 4,
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
-            >
-              <Icon name="heart-outline" size={25} style={{ color: 'gray', padding: 11 }} />
-
-            </Avatar>
-
-          </View>
-        </View>
-
-        <Animatable.View style={styles.footer} animation="fadeInUp">
-
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            showsHorizontalScrollIndicator={false}
-            style={styles.scrollView}>
-            {/* <View style={{ flexDirection: 'row-reverse', marginHorizontal: 5, zIndex: 5,  }}>
-
-
-          </View> */}
-            {/* </View> */}
-            <View style={{ paddingLeft: 20, paddingRight: 10 }}>
-              <Text style={{ color: 'black', fontSize: 28, paddingBottom: 10, fontWeight: 'bold' }}>{item_nme}</Text>
-
-              {/* <Star score={5} style={starStyle} /> */}
-              {/* <AirbnbRating
-
-            /> */}
-              <Star score={4.7} style={starStyle} />
-
-              {/* <Text style={{ color: '#7b412d', fontSize: 20, paddingBottom: 10, fontWeight: 'bold' }}>Product Description</Text> */}
-              <Text style={{ color: 'gray', textAlign: 'justify', fontSize: 15, marginBottom: 10 }}>{description}</Text>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-              </View>
-              <View style={{ marginBottom: 10 }}>
-                <Divider style={{ backgroundColor: 'gray', }} />
-              </View>
-
-              <Animatable.View animation="flipInX" style={{ marginBottom: 20 }}>
-
-                <SwitchSelector
-                  options={options}
-                  initial={0}
-                  selectedColor={'white'}
-                  buttonColor={'#00897b'}
-                  borderColor={'white'}
-                  height={45}
-                  // hasPadding
-                  options={options}
-                  onPress={value => this.changeSML(value)}
-
-                />
-
-              </Animatable.View>
-              {/* <Animatable.View animation="flipInX" style={{ flexDirection: 'row', marginBottom: 20, marginLeft: 30, marginRight: 30, justifyContent: 'center', alignItems: 'center' }}>
-
-                <TouchableOpacity
-                  style={[styles.sml_button, { backgroundColor: (this.state.SelectedButton === '1' ? '#bdbdbd' : 'white'), borderColor: (this.state.SelectedButton === '1' ? '#00897b' : '#bdbdbd') }]}
-                  onPress={() => this._handleClick('1')}
-                >
-                  <View ><Text style={{ fontWeight: 'bold', fontSize: 20, color: (this.state.SelectedButton === '1' ? 'white' : 'black') }}>S</Text></View>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[styles.sml_button, { backgroundColor: (this.state.SelectedButton === '2' ? '#bdbdbd' : 'white'), borderColor: (this.state.SelectedButton === '2' ? '#00897b' : '#bdbdbd') }]}
-                  onPress={() => this._handleClick('2')}
-                >
-                  <View ><Text style={{ fontWeight: 'bold', fontSize: 20, color: (this.state.SelectedButton === '2' ? 'white' : 'black') }}>M</Text></View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.sml_button, { backgroundColor: (this.state.SelectedButton === '3' ? '#bdbdbd' : 'white'), borderColor: (this.state.SelectedButton === '3' ? '#00897b' : '#bdbdbd') }]}
-                  onPress={() => this._handleClick('3')}
-                >
-                  <View ><Text style={{ fontWeight: 'bold', fontSize: 20, color: (this.state.SelectedButton === '3' ? 'white' : 'black') }}>L</Text></View>
-                </TouchableOpacity>
-              </Animatable.View> */}
-
-              <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 10 }}>
-                <Text style={{ marginBottom: 10 }}>Add Extra</Text>
-                <ScrollView
-
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                >
-                  <TagSelect
-                    data={data}
-                    max={3}
-                    ref={(tag) => {
-                      this.tag = tag;
-                    }}
-
-                    onItemPress={() => this._handleClick3(this.tag)}
-                  />
-
-                </ScrollView>
-              </View>
-
-              <View style={{ marginTop: 10, width: 140 }}>
-                <Text style={{ paddingVertical: 8 }}>Sugar Type </Text>
-                <SwitchSelector
-                  options={sugar}
-                  initial={0}
-                  selectedColor={'white'}
-                  buttonColor={'brown'}
-                  borderColor={'white'}
-                  height={35}
-                  // hasPadding
-                  options={sugar}
-                // onPress={value => this.changeSML(value)}
-
-                />
-              </View>
-              <View style={{ marginTop: 15 }}>
-                <Divider style={{ backgroundColor: 'gray', }} />
-              </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, marginTop: 15 }}>
-                <View>
-
-                  <Text >Total</Text>
-                  <Text style={{ fontWeight: 'bold', fontSize: 38, color: 'red', marginTop: -2 }}>$ {parseFloat(this.state._price) + parseFloat(this.state.addextra_total) + parseFloat(this.state.sml_val)}</Text>
-                </View>
-                <View style={{ marginTop: 22 }}>
-                  <UIStepper
-                    borderRadius={25}
-                    height={40}
-                    width={130}
-                    // value={1}
-                    initialValue={1}
-                    minimumValue={1}
-                    borderColor={"#00897b"}
-                    tintColor={"#00897b"}
-                    displayValue={true}
-                    onValueChange={(value) => { this.setValue(value) }}
-                  />
-                </View>
-
-              </View>
-
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-
-                <View>
-                  {/* <TouchableOpacity style={styles.button} onPress={this.insertInvoice}>
-          
-                    <Text style={styles.buttonText}>Make Order</Text>
-                  </TouchableOpacity>
-                   */}
-                  {/* <TouchableOpacity style={styles.button} onPress={this.addToCart}>
-            
-                    <Text style={styles.buttonText}>add to cart</Text>
-                  </TouchableOpacity> */}
-                </View>
-
-              </View>
             </View>
-            {/* <View> */}
-
-            {/* <SliderPicker
-                // minLabel={'small'}
-                // midLabel={'medium'}
-                // maxLabel={'large'}
-                maxValue={2}
-                callback={position => {
-                  this.setState({
-                    value: position,
-
-                  });
+            <Animatable.View style={{ justifyContent: 'center', alignItems: 'center', margin: 30, marginTop: 0 }} animation="bounceInDown">
+              <ImageBackground
+                source={{ uri: "http://satasmemiy.tk/images/food/" + img }}
+                style={{ height: '105%', width: '100%', resizeMode: 'contain', zIndex: -1 }}
+              >
+              </ImageBackground>
+            </Animatable.View>
+            <View style={{ flexDirection: 'row-reverse', marginHorizontal: 30, top: -25 }}>
+              <Avatar
+                rounded
+                size={48}
+                containerStyle={{
+                  backgroundColor: 'white',
+                  shadowColor: 'rgba(0,0,0, .4)', // IOS
+                  shadowOffset: { height: 2, width: 5 },  // IOS
+                  shadowOpacity: 3, // IOS
+                  shadowRadius: 5, elevation: 4,
+                  justifyContent: 'center',
+                  alignItems: 'center'
                 }}
-                labelStylesOverride={{
+              >
+                <Icon name="heart-outline" size={25} style={{ color: 'gray', padding: 11 }} />
 
-                }
-
-                }
-                defaultValue={this.state.value}
-                labelFontColor={"#6c7682"}
-                labelFontWeight={'100'}
-                showFill={true}
-                fillColor={'green'}
-                labelFontWeight={'bold'}
-                // showNumberScale={true}
-                labelFontSize={this.state.labelSizes}
-                showSeparatorScale={true}
-                buttonBackgroundColor={'#fff'}
-                buttonBorderColor={"#6c7682"}
-                buttonBorderWidth={1}
-                scaleNumberFontWeight={'100'}
-                buttonDimensionsPercentage={6}
-                heightPercentage={1}
-                widthPercentage={80}
-                onPress={this.valueChange(this.state.value)}
-              // onValueChange={this.valueChange}
-              /> */}
-            {/* </View> */}
-
-
-
-
-
-          </ScrollView>
-          <View style={{ alignItems: 'flex-end', backgroundColor: 'white', borderRadius: 20 }}>
-
-            <View style={{ padding: 10, flexDirection: 'row', }}>
-
-              <TouchableOpacity style={styles.buttongeart} onPress={() => this.props.navigation.navigate('WishList')}>
-                <Icon name="heart-outline" size={25} style={{ color: '#00897b', padding: 0 }} />
-              </TouchableOpacity>
-
-
-              <TouchableOpacity style={styles.buttonstyle} onPress={this.addToCart}>
-                <Text style={{ color: 'white' }}>Make Order</Text>
-              </TouchableOpacity>
+              </Avatar>
 
             </View>
-
           </View>
-        </Animatable.View>
+
+          <Animatable.View style={styles.footer} animation="fadeInUp">
+
+            <ScrollView
+              contentInsetAdjustmentBehavior="automatic"
+              showsHorizontalScrollIndicator={false}
+              style={styles.scrollView}>
+              {/* <View style={{ flexDirection: 'row-reverse', marginHorizontal: 5, zIndex: 5,  }}>
+  
+  
+            </View> */}
+              {/* </View> */}
+              <View style={{ paddingLeft: 20, paddingRight: 10 }}>
+                <Text style={{ color: 'black', fontSize: 28, paddingBottom: 10, fontWeight: 'bold' }}>{item_nme}</Text>
+
+                {/* <Star score={5} style={starStyle} /> */}
+                {/* <AirbnbRating
+  
+              /> */}
+                <Star score={4.7} style={starStyle} />
+
+                {/* <Text style={{ color: '#7b412d', fontSize: 20, paddingBottom: 10, fontWeight: 'bold' }}>Product Description</Text> */}
+                <Text style={{ color: 'gray', textAlign: 'justify', fontSize: 15, marginBottom: 10 }}>{description}</Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                </View>
+                {/* <View style={{ marginBottom: 10 }}>
+                  <Divider style={{ backgroundColor: 'gray', }} />
+                </View> */}
+
+                {
+                  // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : " + this.state._coffeeAditionValue)
+
+                  this.state._coffeeAditionValue == 1 ?
+                    <View>
+
+                      <Animatable.View animation="flipInX" style={{ marginBottom: 20 }}>
+                        <SwitchSelector
+                          options={this.state.options}
+                          initial={0}
+                          selectedColor={'white'}
+                          buttonColor={'#00897b'}
+                          borderColor={'white'}
+                          height={45}
+                          onPress={value => this.changeSML(value)}
+                        />
+                      </Animatable.View>
+
+                      <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 10 }}>
+                        <Text style={{ marginBottom: 10 }}>Add Extra</Text>
+                        <ScrollView
+
+                          horizontal={true}
+                          showsHorizontalScrollIndicator={false}
+                        >
+                          <TagSelect
+                            data={this.state.data}
+                            max={3}
+                            ref={(tag) => {
+                              this.tag = tag;
+                            }}
+
+                            onItemPress={() => this._handleClick3(this.tag)}
+                          />
+
+                        </ScrollView>
+                      </View>
+
+                      <View style={{ marginTop: 10, width: 140 }}>
+                        <Text style={{ paddingVertical: 8 }}>Sugar Type </Text>
+                        <SwitchSelector
+                          options={sugar}
+                          initial={0}
+                          selectedColor={'white'}
+                          buttonColor={'brown'}
+                          borderColor={'white'}
+                          height={35}
+                          options={sugar}
+
+                        />
+                      </View>
+                    </View> :
+                    <View></View>
+                }
+
+
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, marginTop: 15 }}>
+                  <View>
+
+                    <Text >Total</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 38, color: 'red', marginTop: -2 }}>$ {parseFloat(this.state._price) + parseFloat(this.state.addextra_total) + parseFloat(this.state.sml_val)}</Text>
+                  </View>
+                  <View style={{ marginTop: 22 }}>
+                    <UIStepper
+                      borderRadius={25}
+                      height={40}
+                      width={130}
+                      // value={1}
+                      initialValue={1}
+                      minimumValue={1}
+                      borderColor={"#00897b"}
+                      tintColor={"#00897b"}
+                      displayValue={true}
+                      onValueChange={(value) => { this.setValue(value) }}
+                    />
+                  </View>
+
+                </View>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+
+                  <View>
+                    {/* <TouchableOpacity style={styles.button} onPress={this.insertInvoice}>
+            
+                      <Text style={styles.buttonText}>Make Order</Text>
+                    </TouchableOpacity>
+                     */}
+                    {/* <TouchableOpacity style={styles.button} onPress={this.addToCart}>
+              
+                      <Text style={styles.buttonText}>add to cart</Text>
+                    </TouchableOpacity> */}
+                  </View>
+
+                </View>
+              </View>
+              {/* <View> */}
 
 
 
-      </SafeAreaView >
-    );
+
+
+
+
+            </ScrollView>
+            <View style={{ alignItems: 'flex-end', backgroundColor: 'white', borderRadius: 20 }}>
+
+              <View style={{ padding: 10, flexDirection: 'row', }}>
+
+                <TouchableOpacity style={styles.buttongeart} onPress={() => this.props.navigation.navigate('WishList')}>
+                  <Icon name="heart-outline" size={25} style={{ color: '#00897b', padding: 0 }} />
+                </TouchableOpacity>
+
+
+                <TouchableOpacity style={styles.buttonstyle} onPress={this.addToCart}>
+                  <Text style={{ color: 'white' }}>Make Order</Text>
+                </TouchableOpacity>
+
+              </View>
+
+            </View>
+          </Animatable.View>
+
+
+
+        </SafeAreaView >
+      );
+    }
+
   }
 }
 const styles = StyleSheet.create({
@@ -521,7 +519,7 @@ const styles = StyleSheet.create({
   }, header: {
     flex: 2,
     backgroundColor: '#00897b',
- 
+
   }, footer: {
     backgroundColor: '#F2F2F2',
     flex: 3,

@@ -28,7 +28,7 @@ export class SignUp extends Component {
 
 
 
-    fetch('http://coffeeshopcheck3.000webhostapp.com/register', {
+    fetch('http://satasmemiy.tk/register', {
       method: 'post',
       headers: {
         Accept: 'application/json',
