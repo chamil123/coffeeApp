@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
+import { Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView, StyleSheet,StatusBar } from 'react-native';
 import { IMAGE } from '../constants/image';
+import { CustomHeader } from '../index';
 export class WhereHouse extends Component {
     constructor(props) {
         super(props)
@@ -11,6 +12,8 @@ export class WhereHouse extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
+            <StatusBar barStyle="light-content" hidden={false} backgroundColor="#00897b" />
+                 <CustomHeader title="" isPost={false} isHome={true} bdcolor='#00897b' bgcolor='#00897b' navigation={this.props.navigation} />
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
                 >

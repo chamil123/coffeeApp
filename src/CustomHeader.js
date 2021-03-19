@@ -3,8 +3,8 @@ import { Text, View, StyleSheet, SafeAreaView, Image, TouchableOpacity, ScrollVi
 import { Icon, Badge } from 'react-native-elements';
 import { IMAGE } from './constants/image';
 import { Avatar } from 'react-native-elements';
-
-
+import Database from './Database';
+const db = new Database();
 const styles = StyleSheet.create({
   text: {
     height: 40, backgroundColor: 'white', borderRadius: 5, padding: 10,
@@ -17,10 +17,53 @@ const styles = StyleSheet.create({
   },
 });
 
-
+let aaa = 0;
 export class CustomHeader extends Component {
+
+  state = {
+
+    _cart_count: 0,
+  }
+
+  constructor(props) {
+    super(props);
+
+    // this.props.navigation.navigate.userName;
+    this.state = {
+      isLoading: true,
+      vale: 66,
+      cart_qty: this.props.navigation.navigate.cart_qty,
+      dbs: '',
+
+    };
+    db.initDB().then((result) => {
+      this.loadDbVarable(result);
+    })
+    this.loadDbVarable = this.loadDbVarable.bind(this);
+
+  }
+
+  loadDbVarable(result) {
+    this.setState({
+      dbs: result,
+    });
+
+
+  }
+
+  componentWillUnmount() {
+    db.cartCont(this.state.dbs).then((data) => {
+      let cart_count = data;
+
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
   render() {
-    let { navigation, isHome, title, bgcolor, bdcolor, isPost } = this.props
+
+    let { navigation, isHome, title, bgcolor, bdcolor, isPost, cart_qty } = this.props
+    // cart_qty: this.props.navigation.navigate.cart_qty;
+
     return (
       <View style={{ flexDirection: 'row', backgroundColor: bgcolor, height: 55, borderBottomColor: bdcolor, borderBottomWidth: 1 }} >
 
@@ -37,7 +80,7 @@ export class CustomHeader extends Component {
                   name='bars'
                   type='font-awesome'
                   color='white'
-                  iconStyle={{ fontSize: 30, fontWeight: 'normal' }}
+                  iconStyle={{ fontSize: 25, fontWeight: 'normal' }}
                   onPress={() => navigation.openDrawer()} />
                 {/* <Image style={{ width: 28, height: 28, marginLeft: 0,padding:4 }}
                   source={IMAGE.ICON_MENU_ICON}
@@ -74,13 +117,13 @@ export class CustomHeader extends Component {
 
 
         <View style={{ flex: 1, justifyContent: 'center' }}>
-          <Text style={{ textAlign: 'center' }}>{title}</Text>
+          <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: 'bold' }}>{title}</Text>
         </View>
         <View style={{ flex: 1, justifyContent: 'center' }}>
           {
             isPost ?
-              <TouchableOpacity onPress={() =>  this.props.navigation.navigate('Cart')}>
-                <View style={{  padding: 10,marginLeft:35 }}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Cart')}>
+                <View style={{ padding: 10, marginLeft: 35 }}>
                   {/* 
                   <View style={{marginLeft:60}}>
                     <View style={{ zIndex: 5,top:0, backgroundColor: 'green', marginLeft:10}}>
@@ -96,19 +139,19 @@ export class CustomHeader extends Component {
                         onPress={() => this.props.navigation.navigate('Cart')} />
                     </View>
                   </View> */}
-                 <Icon
-                        // raised
-                        name='shopping-cart'
-                        type='font-awesome'
-                        color='white'
-                        iconStyle={{ fontSize: 30, fontWeight: 'normal' }}
-                        // onPress={() => this.props.navigation.navigate('Cart')}
-                         />
+                  <Icon
+                    // raised
+                    name='shopping-cart'
+                    type='font-awesome'
+                    color='white'
+                    iconStyle={{ fontSize: 30, fontWeight: 'normal' }}
+                  // onPress={() => this.props.navigation.navigate('Cart')}
+                  />
 
                   <Badge
                     status="error"
-                    value={5}
-                    containerStyle={{ position: 'absolute',left:55,top:5  }}
+                    value={cart_qty}
+                    containerStyle={{ position: 'absolute', left: 55, top: 5 }}
                   />
 
                 </View>

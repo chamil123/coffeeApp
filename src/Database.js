@@ -80,7 +80,7 @@ export default class Database {
         this.initDB();
     }
     addtocart(db, data) {
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $$$ : " + data.p_id)
+
         return new Promise((resolve) => {
             db.transaction((tx) => {
                 tx.executeSql('INSERT OR IGNORE  INTO cart (pId,pName,pDescription,pPrice,pOnePrice,pQty,pImage,pStatus) VALUES ( ?,?,?,?,?,?,?,?)', [data.p_id, data.p_name, data.p_description, data.p_price, data.p_price, data.pQty, data.p_image, 1]).then(([tx, results]) => {
@@ -214,8 +214,10 @@ export default class Database {
         });
     }
 
+
+
     updateCart(db, newPrice, id) {
-        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& : " + newPrice);
+
         return new Promise((resolve) => {
             db.transaction((tx) => {
                 tx.executeSql('UPDATE cart SET pQty =pQty + ?,pPrice=?   WHERE pId = ?', [1, newPrice, id]).then(([tx, results]) => {
@@ -253,7 +255,7 @@ export default class Database {
         });
     }
     getItemById(db, id) {
-        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&& : " + id);
+
         return new Promise((resolve) => {
             const cart_item = [];
             db.transaction((tx) => {

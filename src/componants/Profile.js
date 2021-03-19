@@ -100,7 +100,7 @@ export class Profile extends Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <CustomHeader title="" isHome={false} bdcolor='#3B7457' bgcolor='#3B7457' navigation={this.props.navigation} />
+        <CustomHeader title="" isHome={true} bdcolor='#3B7457' bgcolor='#3B7457' navigation={this.props.navigation} />
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentInsetAdjustmentBehavior="automatic"

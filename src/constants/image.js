@@ -39,6 +39,8 @@ const IMAGE = {
     ICON_ABTIMG2: require('../images/abtimg2.jpg'),
     ICON_ABTIMG3: require('../images/abtimg3.jpg'),
     ICON_ABTIMG4: require('../images/abtimg4.jpg'),
+    ICON_ABTIMG6: require('../images/muffin.png'),
+
 }
 
 export { IMAGE }

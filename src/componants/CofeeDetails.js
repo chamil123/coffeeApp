@@ -10,7 +10,6 @@ import UIStepper from 'react-native-ui-stepper';
 import AsyncStorage from '@react-native-community/async-storage';
 import moment from 'moment';
 import Database from '../Database';
-
 import { TagSelect } from 'react-native-tag-select';
 import * as Animatable from 'react-native-animatable';
 import SwitchSelector from "react-native-switch-selector";
@@ -32,11 +31,14 @@ const sugar = [
   { label: "Brown", value: "30" },
 
 ];
+
 export class CofeeDetails extends Component {
   constructor(props) {
     super(props);
+    this.checkToken();
     this.state = {
       isLoading: true,
+      _aaa: 0,
       // _price: options[0].value,
       _price: 0,
       _name: this.props.route.params.item_nme,
@@ -50,7 +52,7 @@ export class CofeeDetails extends Component {
       position: 0,
       addextra_total: 0,
       sml_val: 0,
-      gros_total:0,
+      gros_total: 0,
       SelectedButton: '',
       param_price: this.props.route.params.price,
       _coffeeAditionValue: 0,
@@ -76,6 +78,17 @@ export class CofeeDetails extends Component {
     this.loadDbVarable = this.loadDbVarable.bind(this);
 
   }
+  checkToken = async () => {
+    const token = await AsyncStorage.getItem('cus_id');
+    if (token) {
+
+      //   this.props.navigation.navigate('HomeApp');
+    } else {
+
+      this.props.navigation.navigate('SignIn')
+    }
+  }
+
   changeSML(value) {
     var smlval = value;
     var total = parseFloat(smlval);
@@ -89,7 +102,16 @@ export class CofeeDetails extends Component {
     this.setState({
       dbs: result,
     });
+    db.cartCont(this.state.dbs).then((data) => {
+      let cart_count = data;
+      // aaa = cart_count;
+      this.setState({
+        _aaa: cart_count,
+      });
 
+    }).catch((err) => {
+      console.log(err);
+    })
 
   }
   getFoodById() {
@@ -111,9 +133,9 @@ export class CofeeDetails extends Component {
         // console.log(">>>>>>>>>>>>>>>> response json : " + responseJson.details.length);
         if (responseJson.details.length != 0) {
           smallPrice = responseJson.details[0].price;
-          console.log(">>>>>>>>>>>>>>>> response json : " + responseJson.details[0].price);
+          // console.log(">>>>>>>>>>>>>>>> response json : " + responseJson.details[0].price);
           responseJson.details.forEach(subProduct => {
-            result.push({ label: subProduct.size, value: subProduct.id });
+            result.push({ label: subProduct.size, value: subProduct.price });
           });
           responseJson.data.forEach(extra => {
             addExtra.push({ id: extra.id, label: extra.label, val: extra.val });
@@ -126,6 +148,14 @@ export class CofeeDetails extends Component {
             data: addExtra,
             _coffeeAditionValue: 1,
             sml_val: smallPrice
+          }, function () {
+
+          });
+        } else {
+          console.log(responseJson.price);
+          this.setState({
+            isLoading: false,
+            sml_val: responseJson.price
           }, function () {
 
           });
@@ -143,7 +173,7 @@ export class CofeeDetails extends Component {
     let dataa = {
       p_id: this.state._id,
       p_name: this.state._name,
-      p_price: this.state._price,
+      p_price: (this.state.addextra_total + parseFloat(this.state.sml_val)) * parseFloat(this.state._qty),
       p_description: this.props.route.params.description,
       p_image: this.state._image,
       pQty: this.state._qty,
@@ -152,9 +182,8 @@ export class CofeeDetails extends Component {
       let result = data;
       if (result == 0) {
         db.addtocart(this.state.dbs, dataa).then((result) => {
-          this.props.navigation.navigate('TabScreentest', {
-            userName: '',
-          });
+          // this.props.navigation.replace('YourPageRoot');
+          this.props.navigation.replace('Cart');
         }).catch((err) => {
           console.log(err);
         })
@@ -175,23 +204,43 @@ export class CofeeDetails extends Component {
 
           newPrice = (pQty + 1) * pOnePrice;
           db.updateCart(this.state.dbs, newPrice, this.state._id).then((result) => {
-            this.props.navigation.navigate('TabScreentest');
+
+
+            // this.props.navigation.push('TabScreentest');
+            this.props.navigation.replace('Cart');
           }).catch((err) => {
             console.log(err);
           })
         } else {
+
           db.addtocart(this.state.dbs, dataa).then((result) => {
-            this.props.navigation.navigate('TabScreentest');
+            this.props.navigation.replace('Cart');
           }).catch((err) => {
             console.log(err);
           })
         }
+
+
 
       }
     }).catch((err) => {
       console.log(err);
     })
 
+
+
+
+    db.cartCont(this.state.dbs).then((data) => {
+      let cart_count = data;
+
+      this.setState({
+        _aaa: cart_count,
+      });
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %%%%%%%%%%%" + cart_count);
+
+    }).catch((err) => {
+      console.log(err);
+    })
   }
 
   insertInvoice = () => {
@@ -255,17 +304,18 @@ export class CofeeDetails extends Component {
     // });
   }
   setValue = (value) => {
-    var price = ( this.state.addextra_total+this.state.sml_val)  * value;
+    var price = (this.state.addextra_total + parseFloat(this.state.sml_val)) * value;
     this.setState({
       isLoading: false,
-      // _price: price,
+      _price: price,
       _qty: value,
 
     })
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : "+(this.state._price) );
-    console.log("#################################################### : "+( this.state.addextra_total ));
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : "+( this.state.sml_val));
-// parseFloat(this.state._price) + parseFloat(this.state.addextra_total) + parseFloat(this.state.sml_val)
+    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : "+(this.state._price) );
+    // console.log("#################################################### : "+( this.state.addextra_total ));
+    // console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : "+( this.state.sml_val));
+    // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% : "+(price));
+    // parseFloat(this.state._price) + parseFloat(this.state.addextra_total) + parseFloat(this.state.sml_val)
 
   }
   // _handleClick(button) {
@@ -313,7 +363,7 @@ export class CofeeDetails extends Component {
       return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#00897b' }}>
           <StatusBar barStyle="light-content" hidden={false} backgroundColor="#00897b" />
-          <CustomHeader title="" isPost isHome={false} bdcolor='#00897b' navigation={this.props.navigation} />
+          <CustomHeader title="" isPost isHome={false} cart_qty={this.state._aaa} bdcolor='#00897b' navigation={this.props.navigation} />
 
           <View style={styles.header}>
             <View style={{ width: 290, height: 290, borderRadius: 200, backgroundColor: '#009984', zIndex: -1, position: 'absolute', marginLeft: 55 }}>
@@ -430,13 +480,13 @@ export class CofeeDetails extends Component {
                     </View> :
                     <View></View>
                 }
-
-
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, marginTop: 15 }}>
                   <View>
 
                     <Text >Total</Text>
-                    <Text style={{ fontWeight: 'bold', fontSize: 38, color: 'red', marginTop: -2 }}>$ {parseFloat(this.state._price) + parseFloat(this.state.addextra_total) + parseFloat(this.state.sml_val)}</Text>
+
+                    <Text style={{ fontWeight: 'bold', fontSize: 38, color: 'red', marginTop: -2 }}>$ {(this.state.addextra_total + parseFloat(this.state.sml_val)) * parseFloat(this.state._qty)}</Text>
+                    {/* <Text style={{ fontWeight: 'bold', fontSize: 38, color: 'red', marginTop: -2 }}>$ {parseFloat(this.state._price) }</Text> */}
                   </View>
                   <View style={{ marginTop: 22 }}>
                     <UIStepper
@@ -452,12 +502,8 @@ export class CofeeDetails extends Component {
                       onValueChange={(value) => { this.setValue(value) }}
                     />
                   </View>
-
                 </View>
-
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-
-
                   <View>
                     {/* <TouchableOpacity style={styles.button} onPress={this.insertInvoice}>
             
@@ -473,12 +519,6 @@ export class CofeeDetails extends Component {
                 </View>
               </View>
               {/* <View> */}
-
-
-
-
-
-
 
             </ScrollView>
             <View style={{ alignItems: 'flex-end', backgroundColor: 'white', borderRadius: 20 }}>

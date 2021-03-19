@@ -6,7 +6,6 @@ import { Button } from 'react-native-elements';
 import { IMAGE } from '../constants/image';
 import { CustomHeader } from '../index';
 import AsyncStorage from '@react-native-community/async-storage';
-
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export class SignIn extends Component {
   constructor(props) {
@@ -47,7 +46,7 @@ export class SignIn extends Component {
         if (responseJson !== "") {
             AsyncStorage.setItem('cus_id',""+responseJson.id).then(
               responseJson => {
-                   this.props.navigation.navigate('Home');
+                   this.props.navigation.navigate('CofeeDetails');
                 }
             );
             AsyncStorage.setItem('cus_name', responseJson.name);
@@ -72,9 +71,19 @@ export class SignIn extends Component {
     return (
 
       <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="light-content" hidden={false} backgroundColor="#3B7457" />
-        <LinearGradient colors={['#3B7457', '#3B7457']} style={styles.gradient}>
-          <CustomHeader title="" isHome={false} bdcolor='#3B7457' navigation={this.props.navigation} />
+        <StatusBar barStyle="light-content" hidden={false} backgroundColor="#00897b" />
+        <View style={{ color: 'white',backgroundColor:'#00897b' ,alignItems:'flex-end',paddingTop:10,paddingEnd:20}}>
+                <Button
+                  title="Skip"
+                  type="outline"
+                  titleStyle={{ color: 'white',fontWeight:'normal',fontSize:14 }}
+                  buttonStyle={styles.submitText, { borderRadius: 25,width:80, borderColor: 'white', color: '#ccc', padding: 7, borderWidth: 0.5,marginBottom:0 }}
+                  onPress={() => this.props.navigation.navigate('drawer')}
+
+                />
+        </View>
+        <LinearGradient colors={['#00897b', '#00897b']} style={styles.gradient}>
+          {/* <CustomHeader title="" isHome={false} bdcolor='#00897b' navigation={this.props.navigation} /> */}
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
@@ -87,12 +96,13 @@ export class SignIn extends Component {
               <Text style={{ fontSize: 14, color: '#fff', marginBottom: 25 }}>Use email to Login</Text>
 
             </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+         
+            <Animatable.View animation="flipInY" style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
               <Image style={{ width: 160, height: 140, marginLeft: 0 }}
                 source={IMAGE.ICON_MALOGO}
                 resizeMode="contain"
               />
-            </View>
+            </Animatable.View>
             <Animatable.View animation="fadeInUp">
               <Text style={{ color: '#fff', paddingVertical: 5, marginLeft: 2, marginTop: 30 }}>User Name :</Text>
               

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Text, View, TouchableOpacity,LogBox  } from 'react-native';
+import { Button, Text, View, TouchableOpacity, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, } from '@react-navigation/drawer';
@@ -17,14 +17,13 @@ function movieReducer(state = mockMovies.Search, action) {
 }
 import { Provider } from 'react-redux';
 const store = createStore(movieReducer);
-import { CofeeDetails, TabScreentest, Cart,StripPaymentwebview, TestScreen, MainHome, SplashScreen, SignIn, Home, Profile, Search, Details, Menu, PlaceOrder, FirstPage, MainPage, SignUp, WhereHouse, AboutUs, AboutUsScreeen, FoodForm, StripePayment, CardFormScreen, WishList } from './src/componants'
+import { CofeeDetails, TabScreentest, Cart, StripPaymentwebview, TestScreen, MainHome, SplashScreen, SignIn, Home, Profile, Search, Details, Menu, PlaceOrder, FirstPage, MainPage, SignUp, WhereHouse, AboutUs, AboutUsScreeen, FoodForm, StripePayment, CardFormScreen, WishList } from './src/componants'
 
 import { CartComponant } from './src';
 import { CustomDrawerContent } from './src';
 
 const AuthStack = createStackNavigator();
 const Tabs = createMaterialBottomTabNavigator();
-// const Tabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const SearchStack = createStackNavigator();
@@ -34,75 +33,32 @@ const Drawer = createDrawerNavigator();
 const Wherehouse = createStackNavigator();
 const AboutUss = createStackNavigator();
 
-const MenuStackScreen = ({ navigation }) => (
-  <MenuStack.Navigator>
-    <MenuStack.Screen name="TabScreentest" options={{
-      headerRight: () => (
-        <CartComponant navigation={navigation} />
-      )
-     
-      // (
-      //   <TouchableOpacity >
-      //     <View style={{ padding: 20,marginRight:10 }}>
+const SearchStackScreen = () => (
+  <SearchStack.Navigator>
+    <SearchStack.Screen name="WishList" options={{ headerShown: false }} component={WishList} />
 
-      //       <Icon
+  </SearchStack.Navigator>
+)
 
-      //         name='shopping-cart'
-      //         type='font-awesome'
-      //         color='black'
-      //         iconStyle={{ fontSize: 30, fontWeight: 'normal' }}
+// const MenuStackScreen = ({ }) => (
+//   <MenuStack.Navigator>
+//     <MenuStack.Screen
+//       options={{ headerShown: false }}
 
-      //       />
+//       component={TabScreentest}
+//     />
 
-      //       <Badge
-      //         status="error"
-      //         value={5}
-      //         containerStyle={{ position: 'absolute', left: 40, top: 15 }}
-      //       />
-
-      //     </View>
-
-
-      //   </TouchableOpacity>
-      // )
-      ,
-      headerShown: true, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 }
-    }}
-
-      component={TabScreentest}
-       />
-
-  </MenuStack.Navigator>
-);
-
-
-const navOptionHandler = () => ({
-  headerShown: false
-})
-
+//   </MenuStack.Navigator>
+// );
 
 const DrawerStackScreen = ({ navigation }) => (
   <Drawer.Navigator initialRouteName="HomeScreen" drawerStyle={{ backgroundColor: 'transparent' }} initialRouteName="HomeScreen" drawerStyle={{ backgroundColor: 'transparent' }} drawerContent={() => <CustomDrawerContent navigation={navigation} />}>
     <Drawer.Screen name="tabs" component={TabsCreen} />
-    {/* <Drawer.Screen name="Profile" component={ProfileStackScreen} />
-    <Drawer.Screen name="AboutUs" component={AboutUsScreen} /> */}
+    <Drawer.Screen name="AboutUsScreeen" component={AboutUsScreeen} />
+    <Drawer.Screen name="WhereHouse" component={WhereHouse} />
   </Drawer.Navigator>
 )
 
-
-
-
-const AuthStackScreen = () => (
-  <AuthStack.Navigator initialRouteName="Home">
-    <AuthStack.Screen name="MainPage" options={{ headerShown: false }} component={MainPage} />
-    <AuthStack.Screen name="SignIn" options={{ headerShown: false }} component={SignIn} />
-    <AuthStack.Screen name="SignUp" options={{ headerShown: false }} component={SignUp} />
-    <AuthStack.Screen name="Menu" options={{ headerShown: true }} component={Menu} />
-
-
-
-  </AuthStack.Navigator>
-)
 
 const HomeStackScreen = ({ navigation }) => (
 
@@ -129,29 +85,18 @@ const HomeStackScreen = ({ navigation }) => (
       }}
       component={MainHome}
     />
-    {/* <HomeStack.Screen name="TabScreentest" options={{ headerShown: true, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 } }} component={TabScreentest} /> */}
-    {/* <AuthStack.Screen name="Home" component={Home} />
-    <HomeStack.Screen name="CofeeDetails" options={{ headerShown: false }} component={CofeeDetails} />
-    <HomeStack.Screen name="Menu" options={{ headerShown: true }} component={Menu} />
-    <HomeStack.Screen name="PlaceOrder" options={{ headerShown: false }} component={PlaceOrder} />
-    <HomeStack.Screen name="FirstPage" options={{ headerShown: false }} component={FirstPage} /> */}
-    {/* <HomeStack.Screen name="Search" component={DrawerStackScreen} /> */}
+
   </HomeStack.Navigator>
 )
 
 
-const SearchStackScreen = () => (
-  <SearchStack.Navigator>
-    <SearchStack.Screen name="wherehouse" options={{ headerShown: true }} component={WhereHouse} />
-  </SearchStack.Navigator>
-);
 
 const WherehouseScreen = ({ navigation }) => (
   <Wherehouse.Navigator>
     <Wherehouse.Screen name="wherehouse"
 
       options={{
-        headerShown: true, title: 'Home A', headerTitleStyle: {
+        headerShown: true, title: '', headerTitleStyle: {
           color: 'white',
         }, headerStyle: { backgroundColor: '#3B7457', elevation: 0, shadowOpacity: 0, }
         , headerLeft: () => (
@@ -203,7 +148,7 @@ const AboutUsScreen = ({ navigation }) => (
               type='font-awesome'
               color='white'
               iconStyle={{ fontSize: 25, fontWeight: 'normal' }}
-            // onPress={() => navigation.openDrawer()} 
+
             />
           </TouchableOpacity>
         ),
@@ -223,23 +168,23 @@ const TabsCreen = ({ navigation }) => (
     <Tabs.Screen
 
       options={{
-        tabBarLabel: 'wherehouse',
+        tabBarLabel: 'Home',
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="home" color={color} size={26} />
         ),
       }}
       name="wherehouse" component={WherehouseScreen} />
-    <Tabs.Screen
+    {/* <Tabs.Screen
       options={{
         tabBarLabel: 'Updates',
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="bell" color={color} size={26} />
         ),
       }}
-      name="Home" component={HomeStackScreen} />
+      name="Home" component={HomeStackScreen} /> */}
     <Tabs.Screen
       options={{
-        tabBarLabel: 'Homes',
+        tabBarLabel: 'Profile',
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="account" color={color} size={26} />
         ),
@@ -249,12 +194,12 @@ const TabsCreen = ({ navigation }) => (
     />
     <Tabs.Screen
       options={{
-        tabBarLabel: 'Profile',
+        tabBarLabel: 'Loyality Card',
         tabBarIcon: ({ color }) => (
           <MaterialCommunityIcons name="credit-card" color={color} size={26} />
         ),
       }}
-      name="Cart" component={Cart} />
+      name="WhereHouse" component={WhereHouse} />
     {/* <Tabs.Screen
       options={{
         tabBarLabel: 'Profile',
@@ -262,7 +207,7 @@ const TabsCreen = ({ navigation }) => (
           <MaterialCommunityIcons name="cart" color={color} size={26} />
         ),
       }}
-      name="Cart" component={Cart} /> */}
+      name="SearchStackScreen" component={SearchStackScreen} /> */}
   </Tabs.Navigator>
 )
 
@@ -271,17 +216,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        {/* <Drawer.Navigator>
-        <Drawer.Screen name="Home" component={TabsCreen} />
-        <Drawer.Screen name="Profile" component={ProfileStackScreen} />
-      </Drawer.Navigator> */}
-        {/* <Tabs.Navigator>
-        <Tabs.Screen name="Home" component={HomeStackScreen} />
-        <Tabs.Screen name="Profile" component={ProfileStackScreen} />
-      </Tabs.Navigator> */}
-        {/* <AuthStack.Navigator>
-        <AuthStack.Screen name="SignIn" options={{ headerShown: false }} component={SignIn} />
-      </AuthStack.Navigator> */}
+
         <StackApp.Navigator initialRouteName="SplashScreen" >
           <StackApp.Screen name="drawer" options={{ headerShown: false }} component={DrawerStackScreen} />
           <StackApp.Screen name="SplashScreen" options={{ headerShown: false }} component={SplashScreen} />
@@ -289,15 +224,16 @@ export default function App() {
           <StackApp.Screen name="CofeeDetails" options={{ headerShown: false, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 } }} component={CofeeDetails} />
           <StackApp.Screen name="MainHome" options={{ headerShown: true }} component={MainHome} />
           <StackApp.Screen name="Home" options={{ headerShown: false }} component={TabsCreen} />
-          <StackApp.Screen name="TabScreentest" options={{ headerShown: false }} component={MenuStackScreen} />
-          <StackApp.Screen name="WhereHouse" options={{ headerShown: false }} component={WhereHouse} />
+          <StackApp.Screen name="TabScreentest" options={{ headerShown: true, title: 'Our Menu', headerStyle: { backgroundColor: '#fff', elevation: 0 } }} component={TabScreentest} />
+          {/* <StackApp.Screen name="WhereHouse" options={{ headerShown: false }} component={WhereHouse} /> */}
           <StackApp.Screen name="AboutUs" options={{ headerShown: false }} component={AboutUsScreen} />
-          <StackApp.Screen name="AboutUsScreeen" options={{ headerShown: false }} component={AboutUsScreeen} />
+          {/* <StackApp.Screen name="AboutUsScreeen" options={{ headerShown: false }} component={AboutUsScreeen} /> */}
           <StackApp.Screen name="Cart" options={{ headerShown: true }} component={Cart} />
           <StackApp.Screen name="FoodForm" options={{ headerShown: true }} component={FoodForm} />
           <StackApp.Screen name="CardFormScreen" options={{ headerShown: true }} component={CardFormScreen} />
-          <StackApp.Screen name="WishList" options={{  headerShown: false,headerStyle: { backgroundColor: '#fff', elevation: 0 }   }} component={WishList} />
+          {/* <StackApp.Screen name="WishList" options={{ headerShown: false, headerStyle: { backgroundColor: '#fff', elevation: 0 } }} component={WishList} /> */}
           <StackApp.Screen name="StripPaymentwebview" options={{ headerShown: true, }} component={StripPaymentwebview} />
+          <StackApp.Screen name="SignUp" options={{ headerShown: false, }} component={SignUp} />
         </StackApp.Navigator>
       </NavigationContainer>
     </Provider>

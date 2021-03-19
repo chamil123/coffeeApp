@@ -154,7 +154,7 @@ export class CardFormScreen extends PureComponent {
                                 ID: {response.id}
                             </Text>
                             <Text style={styles.instruction}>
-                                Amount: {response.amount}
+                                Amountssssss: {response.amount}
                             </Text>
                         </>
                     }

@@ -10,6 +10,7 @@ export class AboutUs extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <StatusBar barStyle="light-content" hidden={false} backgroundColor="#3B7457" />
+                
                 <View style={{ flex: 1, alignItems: 'center', marginTop: 10 }}>
                     <Image source={IMAGE.ICON_MALOGO}
                         style={{ height: 85, width: 90 }}

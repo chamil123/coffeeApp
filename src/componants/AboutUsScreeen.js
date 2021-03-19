@@ -12,8 +12,8 @@ export class AboutUsScreeen extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
-                <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#F2F2F2" />
-                <CustomHeader title="" isHome={false} bdcolor='#F2F2F2' bgcolor='#F2F2F2' navigation={this.props.navigation} />
+                <StatusBar barStyle="dark-light" hidden={false} backgroundColor="#00897b" />
+                <CustomHeader title="" isPost={false} isHome={true} bdcolor='#00897b' bgcolor='#00897b' navigation={this.props.navigation} />
 
                 <ScrollView
                     showsVerticalScrollIndicator={false}

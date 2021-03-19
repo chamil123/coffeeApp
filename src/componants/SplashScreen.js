@@ -3,11 +3,11 @@ import { Text, View, SafeAreaView, StyleSheet, TouchableOpacity, Image, StatusBa
 import LinearGradient from 'react-native-linear-gradient';
 import { IMAGE } from '../constants/image';
 import Database from '../Database';
-
+import * as Animatable from 'react-native-animatable';
 const db = new Database();
 
 export class SplashScreen extends Component {
-    
+
     constructor(props) {
         super(props)
 
@@ -31,12 +31,13 @@ export class SplashScreen extends Component {
             <View style={styles.container}>
                 <StatusBar barStyle="light-content" hidden={false} backgroundColor="#3B7457" />
                 <LinearGradient colors={['#3B7457', '#3B7457']} style={styles.gradient}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: -20 }}>
+
+                    <Animatable.View animation="flipInY" style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: -20 }}>
                         <Image style={{ width: 210, height: 190, }}
                             source={IMAGE.ICON_MALOGO}
                             resizeMode="contain"
                         />
-                    </View>
+                    </Animatable.View>
                 </LinearGradient>
             </View>
         );
