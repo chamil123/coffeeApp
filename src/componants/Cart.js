@@ -274,36 +274,25 @@ export class Cart extends PureComponent {
     });
 
     // Use firebase serve for local testing if you don't have a paid firebase account
-    fetch(
-      'https://us-central1-coffee-app-fb513.cloudfunctions.net/payWithStripe',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: this.state._total * 100,
-          currency: 'aud',
-          token: this.state.token,
-          // payment_method_types: ['card'],
-        }),
-      },
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({
-          success: responseJson.status == 'succeeded' ? true : false,
-          response: responseJson,
-        });
-
-        if (responseJson.status == 'succeeded') {
-          this.emptyCartData();
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    fetch('https://us-central1-coffee-app-fb513.cloudfunctions.net/payWithStripe', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      amount: 100,
+      currency: "usd",
+      token: this.state.token
+    }),
+  })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+    })
+    .catch((error) => {
+      console.error(error);
+    });;
   };
   emptyCartData() {
     this.cart_data();
@@ -363,28 +352,29 @@ export class Cart extends PureComponent {
 
   handleCardPayPress = async () => {
     try {
-      this.setState({loading: true, token: null});
+      // this.setState({loading: true, token: null});
       const token = await stripe.paymentRequestWithCardForm({
         // Only iOS support this options
-        smsAutofillDisabled: true,
+        smsAutofillDisabled: false,
         requiredBillingAddressFields: 'full',
 
         prefilledInformation: {
           billingAddress: {
-            name: 'John',
-            line1: '130/A',
+            name: '',
+            line1: '',
             line2: '',
-            city: 'eheliyagoda',
-            state: 'rathnapura',
-            country: 'LK',
-            postalCode: '70600',
+            city: '',
+            state: '',
+            country: '',
+            postalCode: ''
           },
         },
+        
       });
 
       this.setState({
         loading: false,
-        token,
+        token:token,
       });
     } catch (error) {
       this.setState({loading: false});
