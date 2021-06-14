@@ -3,8 +3,6 @@ import { Text, View, SafeAreaView, TouchableOpacity, StyleSheet, Image, ScrollVi
 import { List, ListItem, Left, Body, Right } from 'native-base';
 import { Icon, Avatar } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
-import mockMoview from '../mockMovies';
-import MoviewRow from '../constants/MovieRow';
 import * as Animatable from 'react-native-animatable';
 import Database from '../Database';
 import { StatusBar } from 'react-native';
@@ -32,7 +30,7 @@ export class WishList extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      movies: mockMoview.Search,
+
       dbs: '',
       _list_elimination: [],
       _pQty: 1,
@@ -49,7 +47,7 @@ export class WishList extends PureComponent {
   }
 
   loadDbVarable(result) {
-    console.log("asdasdasdasdas>>>>>>>>>>>>>>>>>>>>>>>>");
+
     this.setState({
       dbs: result,
     });
@@ -152,34 +150,7 @@ export class WishList extends PureComponent {
   }
 
 
-  doPayment = async () => {
-
-    // Use firebase serve for local testing if you don't have a paid firebase account
-    fetch('https://us-central1-flawless-lacing-307006.cloudfunctions.net/payWithStripe', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        amount: (this.state._total)*100,
-        currency: "aud",
-        token: this.state.tokenId,
-        payment_method_types: ['card'],
-      }),
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          success: responseJson.status == 'succeeded' ? true : false,
-          response: responseJson
-        })
-      })
-      .catch((error) => {
-        console.error(error);
-      });;
-  }
+  
 
   handleCardPayPress = async () => {
 
@@ -237,7 +208,7 @@ export class WishList extends PureComponent {
           <Left style={{ paddingLeft: 10 }}>
             <View >
 
-              <Image source={{ uri: 'http://satasmemiy.tk/images/food/' + item.pImage }} style={{ width: 90, height: 80 }} />
+              <Image source={{ uri: 'https://satasmemiy.tk/images/food/' + item.pImage }} style={{ width: 90, height: 80 }} />
             </View>
           </Left>
           <Body style={{ marginLeft: -60 }}>

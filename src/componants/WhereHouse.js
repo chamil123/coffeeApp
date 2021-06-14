@@ -12,8 +12,8 @@ export class WhereHouse extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar barStyle="light-content" hidden={false} backgroundColor="#00897b" />
-                 <CustomHeader title="" isPost={false} isHome={true} bdcolor='#00897b' bgcolor='#00897b' navigation={this.props.navigation} />
+            <StatusBar barStyle="light-content" hidden={false} backgroundColor="#3B7457" />
+                 <CustomHeader title="Loyality Card" isPost={false} isHome={true} bdcolor='#3B7457' bgcolor='#3B7457' navigation={this.props.navigation} />
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
                 >
@@ -44,7 +44,7 @@ export class WhereHouse extends Component {
                                  
                             </Text>
                             <Text style={{fontSize:17,paddingTop:10}}>
-                            With a focus on sustainability we cherish the chance to inspire each customer who walk throgh our dors.
+                            With a focus on sustainability we cherish the chance to inspire each customer who walk throgh our doors.
                             </Text>
                             </View>
                            
@@ -62,7 +62,7 @@ export class WhereHouse extends Component {
                         <TouchableOpacity style={{ marginTop: 20,marginBottom:50 }}
                             onPress={() => this.props.navigation.navigate('SignIn')}
                         >
-                            <Text>Login and Scan QR code</Text>
+                           
                         </TouchableOpacity>
                         </View>
                     </View>

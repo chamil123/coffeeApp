@@ -1,4 +1,4 @@
-package com.coffeeapp;
+package com.satasme.coffeeapp;
 
 import android.app.Application;
 import android.content.Context;

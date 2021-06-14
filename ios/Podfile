@@ -13,6 +13,9 @@ target 'coffeeApp' do
   target 'coffeeAppTests' do
     inherit! :complete
     # Pods for testing
+
+    # Stripe
+ 
   end
 
   # Enables Flipper.

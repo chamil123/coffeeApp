@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "332685471738",
-    "project_id": "flawless-lacing-307006",
-    "storage_bucket": "flawless-lacing-307006.appspot.com"
+    "project_number": "787248879185",
+    "project_id": "coffee-app-fb513",
+    "storage_bucket": "coffee-app-fb513.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:332685471738:android:f9bb09102551cbe6363e43",
+        "mobilesdk_app_id": "1:787248879185:android:d06f712b2d947ecfee0a70",
         "android_client_info": {
-          "package_name": "com.coffeeapp"
+          "package_name": "com.satasme.coffeeapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "332685471738-pc21igf557r77ao5t8l1dve3l4u9716i.apps.googleusercontent.com",
+          "client_id": "787248879185-uavdc1kb1vslrugmi3u5m5dphk460p83.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBhh1h7dTDtN76xkY2sEQ13cCOAZ-2BcyI"
+          "current_key": "AIzaSyA4x8QOYV89X-j6Zc77MNj5SihoMwmO0wA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "332685471738-pc21igf557r77ao5t8l1dve3l4u9716i.apps.googleusercontent.com",
+              "client_id": "787248879185-uavdc1kb1vslrugmi3u5m5dphk460p83.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

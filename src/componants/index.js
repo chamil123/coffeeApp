@@ -23,3 +23,9 @@ export * from './CardFormScreen';
 export * from './Button';
 export * from './WishList';
 export * from './StripPaymentwebview';
+export * from './Events';
+export * from './BoxessFree';
+export * from './BoxesCart';
+export * from './CommercialBoxes';
+export * from './HomeAppliance';
+

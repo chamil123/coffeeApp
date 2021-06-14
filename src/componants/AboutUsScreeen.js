@@ -12,20 +12,14 @@ export class AboutUsScreeen extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
-                <StatusBar barStyle="dark-light" hidden={false} backgroundColor="#00897b" />
-                <CustomHeader title="" isPost={false} isHome={true} bdcolor='#00897b' bgcolor='#00897b' navigation={this.props.navigation} />
-
+                <StatusBar barStyle="dark-light" hidden={false} backgroundColor="#3B7457" />
+                <CustomHeader title="About Us" isPost={false} isHome={true} bdcolor='#3B7457' bgcolor='#3B7457' navigation={this.props.navigation} />
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                     contentInsetAdjustmentBehavior="automatic"
                     style={styles.scrollView}>
-
-
                     <View style={{ flex: 1, alignItems: 'center' }}>
                         <View style={styles.container}>
-
-
-
                             <Card style={[styles.card,]} >
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate('FeedingTimeChart', {
                                     data: ''
@@ -37,9 +31,6 @@ export class AboutUsScreeen extends Component {
                                             >
                                             </Image>
                                         </View>
-
-
-
                                     </View>
                                 </TouchableOpacity>
                             </Card>
@@ -187,23 +178,15 @@ export class AboutUsScreeen extends Component {
 
                                     </Text>
                                 </View>
-
                             </View>
-
                         </View>
                     </View>
-
                 </ScrollView>
-
-
-
-
             </SafeAreaView >
         );
     }
 
 } const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         // margin: 20,
@@ -214,13 +197,10 @@ export class AboutUsScreeen extends Component {
         paddingTop: 5,
         paddingLeft: 10,
         paddingRight: 10,
-
-
     }, card: {
         height: 72,
         backgroundColor: "white",
         borderRadius: 85,
-
         elevation: 5,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 3 },
@@ -228,8 +208,6 @@ export class AboutUsScreeen extends Component {
         shadowRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
-
-
         // margin: 5
     }
 });

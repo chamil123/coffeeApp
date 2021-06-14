@@ -19,11 +19,11 @@ export class Profile extends Component {
     };
   }
   state = {
-    text: 'http://facebook.github.io/react-native/',
+    text: 'https://facebook.github.io/react-native/',
   };
   async componentDidMount() {
     const myArray = await AsyncStorage.getItem('cus_id');
-    fetch('http://coffeeshopcheck3.000webhostapp.com/api/profile/' + myArray, {
+    fetch('https://satasmemiy.tk/api/profile/' + myArray, {
       method: 'post',
       // header: {
       //   'Accept': 'application/json',
@@ -65,7 +65,7 @@ export class Profile extends Component {
    
    // const myArray = await AsyncStorage.getItem('cus_id');
   
-    fetch('http://coffeeshopcheck3.000webhostapp.com/api/profile/' + this.state._cus_id, {
+    fetch('https://satasmemiy.tk/api/profile/' + this.state._cus_id, {
       method: 'post',
       headers: {
         Accept: 'application/json',

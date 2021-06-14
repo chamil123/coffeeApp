@@ -99,7 +99,6 @@ export class CardFormScreen extends PureComponent {
                     },
                 },
             })
-            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : "+token.id);
             // this.setState({ loading: true, token: null })
             this.setState({ loading: false, token })
         } catch (error) {
@@ -109,11 +108,8 @@ export class CardFormScreen extends PureComponent {
 
     render() {
         const { loading, token, success, response } = this.state
-
         return (
             <View style={styles.container}>
-
-
                 <Text style={styles.header}>
                     Card Form Example
               </Text>
@@ -126,10 +122,8 @@ export class CardFormScreen extends PureComponent {
                     onPress={this.handleCardPayPress}
                 // {...testID('cardFormButton')}
                 />
-
                 <View
                     style={styles.token}
-
                 >
                  
                     {token && (

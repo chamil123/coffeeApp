@@ -1,100 +1,152 @@
-import React, { Component } from 'react';
-import { StatusBar, TextInput, Text, View, SafeAreaView, TouchableHighlight, TouchableOpacity, ScrollView, StyleSheet, Image, Alert } from 'react-native';
+import React, {Component} from 'react';
+import {
+  StatusBar,
+  TextInput,
+  Text,
+  View,
+  SafeAreaView,
+  TouchableHighlight,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+  Image,
+  Alert,
+} from 'react-native';
+import {SCLAlert, SCLAlertButton} from 'react-native-scl-alert';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
-import { IMAGE } from '../constants/image';
-import { CustomHeader } from '../index';
+import {IMAGE} from '../constants/image';
+import {CustomHeader} from '../index';
 import QRCode from 'react-native-qrcode-generator';
+import AsyncStorage from '@react-native-community/async-storage';
+import FlashMessage, {showMessage} from 'react-native-flash-message';
 export class SignUp extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       TextInputName: '',
       TextInputEmail: '',
       TextInputPhone: '',
       TextInputPassword: '',
-    }
-
+     
+      showAlert: false,
+    };
   }
+  
   state = {
     text: 'http://facebook.github.io/react-native/',
+    show: true
   };
+  handleClose = () => {
+    this.setState({show: false});
+  };
+  showAlert = () => {
+    this.setState({
+      showAlert: true,
+    });
+  };
+  handleOpen() {
+    this.setState({show: true});
+  }
 
+  
   InputUsers = () => {
-    const { TextInputName } = this.state;
-    const { TextInputEmail } = this.state;
-    const { TextInputPhone } = this.state;
-    const { TextInputPassword } = this.state;
+   
+    const {TextInputName} = this.state;
+    const {TextInputEmail} = this.state;
+    const {TextInputPhone} = this.state;
+    const {TextInputPassword} = this.state;
 
-
-
-    fetch('http://satasmemiy.tk/register', {
+    fetch('https://satasmemiy.tk/register', {
       method: 'post',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         cus_name: TextInputName,
         cus_email: TextInputEmail,
         cus_mobile_number: TextInputPhone,
-        cus_password: TextInputPassword
-
-      })
-
-
-    }).then((response) => response.json())
+        cus_password: TextInputPassword,
+      }),
+    })
+      .then((response) => response.json())
       .then((responseJson) => {
-        Alert.alert(responseJson.name);
-        // console.log("asas?>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + responseJson);
-        // this.setState({
-        //   isLoading: false,
-        // }, function () {
+        this.setState(
+          {
+            isLoading: false,
+          },
+          function () {},
+        );
 
-        // });
-        // if (responseJson == "success") {
-        // AsyncStorage.setItem('memberNames', TextInputName).then(
-        //   responseJson => {
-        //     // this.props.navigation.navigate('HomeApp');
-        //   }
-        // );
-        // AsyncStorage.setItem('memberId', PickerValueHolder);
-        // console.log("asas?>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        // } else {
-        // console.log("asas?<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        // showMessage({
+        let id = responseJson.userid;
 
-        //   message: "Register Fail",
-        //   description: "" + `${responseJson}`,
-        //   backgroundColor: 'red'
-        // })
-        // this.props.navigation.navigate('Register')
-        // }
-      }).catch((error) => {
-        console.error(error);
+       
+        // Alert.alert('Register success' );
+
+        if (responseJson.userid != undefined) {
+          AsyncStorage.setItem('memberNames', TextInputName).then(
+            (responseJson) => {
+             
+              this.props.navigation.navigate('wherehouse');
+            },
+          );
+          AsyncStorage.setItem('memberId', '' + responseJson.userid);
+        } else {
+         
+          showMessage({
+            message: 'Registration fail Fail',
+            description: 'Username or password incorrect',
+            backgroundColor: 'red',
+          });
+        }
       })
-
-
-
-
-  }
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-        <StatusBar barStyle="dark-content" hidden={false} backgroundColor="white" />
-        <CustomHeader title="" isHome={false} bdcolor='#fff' navigation={this.props.navigation} />
+      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+       
+        <StatusBar
+          barStyle="dark-content"
+          hidden={false}
+          backgroundColor="white"
+        />
+        <CustomHeader
+          title="Sign Up"
+          isHome={false}
+          bdcolor="#fff"
+          navigation={this.props.navigation}
+        />
+          <FlashMessage duration={1000} />
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-
-          <View style={{
-            flex: 1, justifyContent: 'space-between', paddingHorizontal: 15,
-            paddingVertical: 0,
-          }}>
-            <View style={{ flex: 1, justifyContent: 'center', }}>
-              <Text style={{ fontSize: 26, fontWeight: "bold", marginTop: 15, color: '#00897b' }}>Sign Up </Text>
-              <Text style={{ fontSize: 12, color: 'gray', marginBottom: -3 }}>Please Enter Below Informations to</Text>
-              <Text style={{ fontSize: 12, color: 'gray', marginBottom: 25 }}>Create An Account</Text>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'space-between',
+              paddingHorizontal: 15,
+              paddingVertical: 0,
+            }}>
+            <View style={{flex: 1, justifyContent: 'center'}}>
+              <Text
+                style={{
+                  fontSize: 26,
+                  fontWeight: 'bold',
+                  marginTop: 15,
+                  color: '#00897b',
+                }}>
+                Sign Up{' '}
+              </Text>
+              <Text style={{fontSize: 12, color: 'gray', marginBottom: -3}}>
+                Please Enter Below Informations to
+              </Text>
+              <Text style={{fontSize: 12, color: 'gray', marginBottom: 25}}>
+                Create An Account
+              </Text>
             </View>
             {/* <View style={{justifyContent:'center',alignItems:'center'}}>
               <Image style={{ width: 210, height: 190, marginLeft: 0 }}
@@ -103,29 +155,120 @@ export class SignUp extends Component {
               />
             </View> */}
             <Animatable.View animation="fadeInUp">
-              <Text style={{
-                color: 'black', paddingVertical: 5,
-                marginLeft: 2, marginTop: 5
-              }}>Name :</Text>
-              <TextInput blurOnSubmit onChangeText={TextInputValue => this.setState({ TextInputName: TextInputValue })} style={{ borderColor: 'gray', borderWidth: 0.5, borderRadius: 8, backgroundColor: '#F2F2F2', paddingLeft: 10 }} placeholder="Enter User Name" onEndEditing={this.clearFocus} autoFocus={false} />
-              <Text style={{ color: 'black', paddingVertical: 5, marginLeft: 2, marginTop: 8 }}>Email :</Text>
-              <TextInput blurOnSubmit onChangeText={TextInputValue => this.setState({ TextInputEmail: TextInputValue })} style={{ borderColor: 'gray', borderWidth: 0.5, borderRadius: 8, backgroundColor: '#F2F2F2', paddingLeft: 10 }} placeholder="Enter Email Address" onEndEditing={this.clearFocus} autoFocus={false} />
-              <Text style={{ color: 'black', paddingVertical: 5, marginLeft: 2, marginTop: 8 }}>Mobile Number :</Text>
-              <TextInput blurOnSubmit onChangeText={TextInputValue => this.setState({ TextInputPhone: TextInputValue })} style={{ borderColor: 'gray', borderWidth: 0.5, borderRadius: 8, backgroundColor: '#F2F2F2', paddingLeft: 10 }} placeholder="Enter Mobile Number" onEndEditing={this.clearFocus} autoFocus={false} />
-              <Text style={{ color: 'black', paddingVertical: 5, marginLeft: 2, marginTop: 8 }}>Password :</Text>
-              <TextInput blurOnSubmit onChangeText={TextInputValue => this.setState({ TextInputPassword: TextInputValue })} style={{ borderColor: 'gray', borderWidth: 0.5, borderRadius: 8, backgroundColor: '#F2F2F2', paddingLeft: 10 }} placeholder="Enter Password" onEndEditing={this.clearFocus} autoFocus={false} />
+              <Text
+                style={{
+                  color: 'black',
+                  paddingVertical: 5,
+                  marginLeft: 2,
+                  marginTop: 5,
+                }}>
+                Name :
+              </Text>
+              <TextInput
+                blurOnSubmit
+                onChangeText={(TextInputValue) =>
+                  this.setState({TextInputName: TextInputValue})
+                }
+                style={{
+                  borderColor: 'gray',
+                  borderWidth: 0.5,
+                  borderRadius: 8,
+                  backgroundColor: '#F2F2F2',
+                  paddingLeft: 10,
+                }}
+                placeholder="Enter User Name"
+                onEndEditing={this.clearFocus}
+                autoFocus={false}
+              />
+              <Text
+                style={{
+                  color: 'black',
+                  paddingVertical: 5,
+                  marginLeft: 2,
+                  marginTop: 8,
+                }}>
+                Email :
+              </Text>
+              <TextInput
+                blurOnSubmit
+                onChangeText={(TextInputValue) =>
+                  this.setState({TextInputEmail: TextInputValue})
+                }
+                style={{
+                  borderColor: 'gray',
+                  borderWidth: 0.5,
+                  borderRadius: 8,
+                  backgroundColor: '#F2F2F2',
+                  paddingLeft: 10,
+                }}
+                placeholder="Enter Email Address"
+                onEndEditing={this.clearFocus}
+                autoFocus={false}
+              />
+              <Text
+                style={{
+                  color: 'black',
+                  paddingVertical: 5,
+                  marginLeft: 2,
+                  marginTop: 8,
+                }}>
+                Mobile Number :
+              </Text>
+              <TextInput
+                blurOnSubmit
+                onChangeText={(TextInputValue) =>
+                  this.setState({TextInputPhone: TextInputValue})
+                }
+                style={{
+                  borderColor: 'gray',
+                  borderWidth: 0.5,
+                  borderRadius: 8,
+                  backgroundColor: '#F2F2F2',
+                  paddingLeft: 10,
+                }}
+                placeholder="Enter Mobile Number"
+                onEndEditing={this.clearFocus}
+                autoFocus={false}
+              />
+              <Text
+                style={{
+                  color: 'black',
+                  paddingVertical: 5,
+                  marginLeft: 2,
+                  marginTop: 8,
+                }}>
+                Password :
+              </Text>
+              <TextInput
+                blurOnSubmit
+                secureTextEntry={true}
+                onChangeText={(TextInputValue) =>
+                  this.setState({TextInputPassword: TextInputValue})
+                }
+                style={{
+                  borderColor: 'gray',
+                  borderWidth: 0.5,
+                  borderRadius: 8,
+                  backgroundColor: '#F2F2F2',
+                  paddingLeft: 10,
+                }}
+                placeholder="Enter Password"
+                onEndEditing={this.clearFocus}
+                autoFocus={false}
+              />
 
-              <TouchableOpacity activeOpacity={1.0} ref="touchableOpacity" style={{ marginTop: 40, }} onPress={() => this.props.navigation.navigate('TestScreen')} onPress={this.InputUsers}>
-
-                <LinearGradient colors={['#009984', '#00554D']}
-
-                  start={{ x: 0, y: 1 }}
-                  end={{ x: 1, y: 0.9 }}
-
+              <TouchableOpacity
+                activeOpacity={1.0}
+                ref="touchableOpacity"
+                style={{marginTop: 40}}
+                onPress={this.InputUsers}>
+                {/* onPress={() => this.props.navigation.navigate('TestScreen')} */}
+                <LinearGradient
+                  colors={['#009984', '#00554D']}
+                  start={{x: 0, y: 1}}
+                  end={{x: 1, y: 0.9}}
                   style={styles.linearGradient}>
-                  <Text style={styles.buttonText}>
-                    Sign Up
-  </Text>
+                  <Text style={styles.buttonText}>Sign Up</Text>
                 </LinearGradient>
               </TouchableOpacity>
               {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('PeriodCalandar')}>
@@ -158,8 +301,6 @@ export class SignUp extends Component {
               bgColor='black'
               fgColor='white' /> */}
           </View>
-
-
         </ScrollView>
         {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text>test!</Text>
@@ -171,7 +312,6 @@ export class SignUp extends Component {
    
           </TouchableOpacity>
         </View> */}
-
       </SafeAreaView>
     );
   }
@@ -179,8 +319,8 @@ export class SignUp extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  }
-  , linearGradient: {
+  },
+  linearGradient: {
     // flex: 1,
     // width: 280,
     paddingLeft: 15,
@@ -189,7 +329,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     elevation: 3,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
+    shadowOffset: {width: 0, height: 3},
     shadowOpacity: 0.7,
     shadowRadius: 8,
   },
@@ -200,12 +340,13 @@ const styles = StyleSheet.create({
     margin: 14,
     color: 'white',
     backgroundColor: 'transparent',
-  }, input: {
+  },
+  input: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     margin: 10,
     borderRadius: 5,
     padding: 5,
-}
+  },
 });

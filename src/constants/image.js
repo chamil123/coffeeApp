@@ -40,7 +40,11 @@ const IMAGE = {
     ICON_ABTIMG3: require('../images/abtimg3.jpg'),
     ICON_ABTIMG4: require('../images/abtimg4.jpg'),
     ICON_ABTIMG6: require('../images/muffin.png'),
-
+    ICON_NO_INTERNET: require('../images/noInte.png'),
+    ICON_NO_BOXES: require('../images/box2.jpg'),
+    ICON_EVT_BACK: require('../images/back4.jpg'),
+    ICON_CARDBOARD_BOX: require('../images/box3.png'),
+    ICON_CARDBOARD_BOX_HD: require('../images/p6.png'),
 }
 
 export { IMAGE }

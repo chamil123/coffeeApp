@@ -1,4 +1,4 @@
-package com.coffeeapp;
+package com.satasme.coffeeapp;
 
 import com.facebook.react.ReactActivity;
 
